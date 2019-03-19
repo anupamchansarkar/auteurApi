@@ -5,6 +5,20 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { PostsComponent } from './posts/posts.component';
+import { RouterModule } from '@angular/router'; 
+
+const Routes = [
+
+  {
+    path: '',
+    redirectTo: 'posts',
+    pathMatch: 'full'
+  },
+  {
+    path: '', component: PostsComponent
+  }
+
+];
 
 @NgModule({
   declarations: [
@@ -14,7 +28,8 @@ import { PostsComponent } from './posts/posts.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    RouterModule.forRoot(Routes),
   ],
   providers: [],
   bootstrap: [AppComponent]
