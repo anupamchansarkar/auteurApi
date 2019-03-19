@@ -201,7 +201,7 @@ module.exports = ""
 /***/ 672:
 /***/ (function(module, exports) {
 
-module.exports = "<h1>\n  {{title}}\n</h1>\n"
+module.exports = "<h1>\n  {{title}}\n</h1>\n\n<router-outlet></router-outlet>"
 
 /***/ }),
 
