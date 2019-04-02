@@ -9,7 +9,7 @@ from modules.database.db import Database
 def login():
 	loginObj = Login()
 	loginObj.post(request.data)
-	return "TEST PASSED"
+	return "Test passed"
 
 @application.route("/register", methods=['GET','POST'])
 def register():
