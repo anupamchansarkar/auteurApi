@@ -20,9 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnInit() {
-        this.loadAllUsers();
-    }
+    
 
     ngOnDestroy() {
         // unsubscribe to ensure no memory leaks
