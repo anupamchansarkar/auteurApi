@@ -1,43 +1,19 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from django.conf import settings
+from basic.models import Users
+from basic.controllers.register import Register
 import requests
-
-from .serializers import CreateUserSerializer
-
-CLIENT_ID = 'dWZWsZLH1bZ0uvT0cEGEDrC5LNDYTguw7HPK6Eqj'
-CLIENT_SECRET = 'ggShTuiI84s8SYJNisq2Qr0ylqMYIkKy6mIhWKsMM3bw95ZO2lYj2w5z3G2FMTzNETKl7DT5selMWb9TjR8ELrEJwZrZ9HUuChTIMLrIc0QwhuWNhu7xv7O1LEvuGgSK'
-
+import logging
+log = logging.getLogger(__name__)
 
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register(request):
-    '''
-    Registers user to the server. Input should be in the format:
-    {"username": "username", "password": "1234abcd"}
-    '''
-    # Put the data from the request into the serializer 
-    serializer = CreateUserSerializer(data=request.data) 
-    # Validate the data
-    if serializer.is_valid():
-        # If it is valid, save the data (creates a user).
-        serializer.save() 
-        # Then we get a token for the created user.
-        # This could be done differentley 
-        r = requests.post('http://vm.auteur.com/o/token/', 
-            data={
-                'grant_type': 'password',
-                'username': request.data['username'],
-                'password': request.data['password'],
-                'client_id': CLIENT_ID,
-                'client_secret': CLIENT_SECRET,
-            },
-        )
-        return Response(r.json())
-    return Response(serializer.errors)
-
-
+    register_obj = Register(request.data)
+    return register_obj.post()
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -47,13 +23,13 @@ def token(request):
     {"username": "username", "password": "1234abcd"}
     '''
     r = requests.post(
-    'http://vm.auteur.com/o/token/', 
+    settings.SITE_HOST + '/o/token/', 
         data={
             'grant_type': 'password',
             'username': request.data['username'],
             'password': request.data['password'],
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
+            'client_id': settings.CLIENT_ID,
+            'client_secret': settings.CLIENT_SECRET,
         },
     )
     return Response(r.json())
@@ -68,12 +44,12 @@ def refresh_token(request):
     {"refresh_token": "<token>"}
     '''
     r = requests.post(
-    'http://vm.auteur.com/o/token/', 
+    settings.SITE_HOST + '/o/token/', 
         data={
             'grant_type': 'refresh_token',
             'refresh_token': request.data['refresh_token'],
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
+            'client_id': settings.CLIENT_ID,
+            'client_secret': settings.CLIENT_SECRET,
         },
     )
     return Response(r.json())
@@ -87,11 +63,11 @@ def revoke_token(request):
     {"token": "<token>"}
     '''
     r = requests.post(
-        'http://vm.auteur.com/o/revoke_token/', 
+        settings.SITE_HOST + '/o/revoke_token/', 
         data={
             'token': request.data['token'],
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
+            'client_id': settings.CLIENT_ID,
+            'client_secret': settings.CLIENT_SECRET,
         },
     )
     # If it goes well return sucess message (would be empty otherwise) 

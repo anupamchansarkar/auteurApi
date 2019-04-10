@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'vm.auteur.com']
 
+SITE_HOST = 'http://vm.auteur.com'
+
+CLIENT_ID = 'dWZWsZLH1bZ0uvT0cEGEDrC5LNDYTguw7HPK6Eqj'
+CLIENT_SECRET = 'ggShTuiI84s8SYJNisq2Qr0ylqMYIkKy6mIhWKsMM3bw95ZO2lYj2w5z3G2FMTzNETKl7DT5selMWb9TjR8ELrEJwZrZ9HUuChTIMLrIc0QwhuWNhu7xv7O1LEvuGgSK'
 
 # Application definition
 
@@ -142,6 +146,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
 }
 
 AUTHENTICATION_BACKENDS = (
@@ -149,3 +154,52 @@ AUTHENTICATION_BACKENDS = (
     'oauth2_provider.backends.OAuth2Backend',
 )
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+    },
+    'handlers': {
+        'null': {
+            'level':'DEBUG',
+            'class':'logging.NullHandler',
+        },
+        'logfile': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': '/var/www/api/logs' + "/logfile.txt",
+            'maxBytes': 50000,
+            'backupCount': 2,
+            'formatter': 'standard',
+        },
+        'console':{
+            'level':'INFO',
+            'class':'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers':['console'],
+            'propagate': True,
+            'level':'WARN',
+        },
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'basic': {
+            'handlers': ['console', 'logfile'],
+            'level': 'DEBUG',
+        },
+        'scriptmaestro': {
+            'handlers': ['console', 'logfile'],
+            'level': 'DEBUG',
+        },
+    }
+}
