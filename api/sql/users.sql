@@ -2,7 +2,7 @@ use auteur;
 
 CREATE TABLE `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `unique_id` char(32) NOT NULL,
+  `unique_id` char(40) NOT NULL,
   `first_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT '' COMMENT '	',
   `last_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT '',
   `password` char(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,

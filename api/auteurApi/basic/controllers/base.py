@@ -1,0 +1,53 @@
+from rest_framework.response import Response
+from rest_framework.exceptions import APIException
+
+import logging
+import base64
+
+from basic.models.applications import Applications
+from basic.models.oauths import Oauths
+
+class Base:
+    def __init__(self, request):
+        self.log = logging.getLogger(__name__)
+        self.request = request
+        self.basic_token = None
+        self.bearer_token = None
+        self.application_id = None
+        self.user_id = None
+        self.scope = None
+
+        # check authorization
+        self.auth = self.request.headers.get('Authorization')
+        if 'Basic' in self.auth and not self.check_basic_auth():
+            raise APIException('Invalid auth headers')
+        elif 'Bearer' in self.auth and not self.check_bearer_auth():
+            raise APIException('Invalid auth headers')
+
+        self.request_method = request.method
+        self.payload = request.data
+        self.log.debug(type(self.payload))
+
+    def check_basic_auth(self):
+        self.basic_token = self.auth.split('Basic ')[1]
+        decoded_token = base64.b64decode(self.basic_token)
+        token_parts = decoded_token.decode('utf8').split(':')
+        app = Applications()
+        self.application_id = app.get_by_client_id(token_parts[0])
+        if not self.application_id:
+            return False
+        return True
+    
+    def check_bearer_auth(self):
+        self.bearer_token = self.auth.split('Bearer ')[1]
+        oauths_obj = Oauths()
+        res = oauths_obj.check_access_token(self.bearer_token)
+        if not res:
+            return False
+        self.application_id = res['app_id']
+        self.user_id = res['user_id']
+        self.scope = res['scope']
+        return True
+
+    def response(self, res):
+        return Response(res)

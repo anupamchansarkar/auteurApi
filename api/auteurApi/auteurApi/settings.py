@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'basic',
-    'scriptmaestro',
 ]
 
 MIDDLEWARE = [
@@ -194,10 +193,6 @@ LOGGING = {
             'propagate': False,
         },
         'basic': {
-            'handlers': ['console', 'logfile'],
-            'level': 'DEBUG',
-        },
-        'scriptmaestro': {
             'handlers': ['console', 'logfile'],
             'level': 'DEBUG',
         },
