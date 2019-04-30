@@ -5,6 +5,7 @@ from django.conf import settings
 from basic.controllers.register import Register
 from basic.controllers.user import User
 from basic.controllers.oauth import Oauth
+from basic.controllers.folder import Folder
 import requests
 import logging
 log = logging.getLogger(__name__)
@@ -24,9 +25,15 @@ def token(request):
 
 @api_view(['POST', 'GET'])
 @permission_classes([AllowAny])
-def user(request):
+def user(request, user_id=None):
     user_obj = User(request)
     if request.method.upper() == 'POST':
         return user_obj.post()
     elif request.method.upper() == 'GET':
         return user_obj.get()
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def folder(request, folder_id=None):
+    folder_obj = Folder(request)
+    return folder_obj.get(folder_id)

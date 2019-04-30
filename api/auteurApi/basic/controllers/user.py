@@ -38,7 +38,7 @@ class User(Base):
 
         # save user info
         users_obj = Users()
-        users_obj.set_params(first_name=self.first_name,last_name=self.last_name,password=self.password)
+        users_obj.set_params(first_name=self.first_name,last_name=self.last_name,password=self.password,application_id=self.application_id)
         self.unique_id = users_obj.save()
 
         if not self.unique_id:
@@ -66,12 +66,14 @@ class User(Base):
         emails = Emails()
         emails.set_params(user_id=self.user_id, email=self.email)
         emails.save()
-        r = {"user_id":self.unique_id}
+        r = {"id":self.unique_id}
         return self.response(r)
 
     def get(self):
         user_obj = Users()
         user_details = user_obj.get_by_id(self.user_id)
+        if not user_details:
+            raise APIException("User not found")
 
         # folder details
         user_folder_obj = User_folders()

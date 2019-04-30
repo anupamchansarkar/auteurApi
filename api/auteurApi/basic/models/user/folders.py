@@ -42,7 +42,6 @@ class User_folders(models.Model):
         self.updated = 0
         super(User_folders, self).save(*args, **kwargs)
 
-
     def generate_unique_id(self):
         unique_id = binascii.b2a_hex(os.urandom(20)).decode('utf-8')
         with connection.cursor() as cursor:
@@ -64,6 +63,14 @@ class User_folders(models.Model):
             row = cursor.fetchone()
             folders = []
             while row:
-                folders.append({"unique_id":row[0], "name":row[1]})
+                folders.append({"id":row[0], "name":row[1]})
                 row = cursor.fetchone()
         return folders
+
+    def check_folder_access(self, user_id, folder_unique_id):
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id FROM user_folders WHERE user_id = %s and unique_id = %s and parent_id is not NULL and permissions != 0 and name != 'Deleted'", [user_id, folder_unique_id])
+            row = cursor.fetchone()
+            if row:
+                return row[0]
+        return False

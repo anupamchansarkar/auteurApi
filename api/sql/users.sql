@@ -10,6 +10,7 @@ CREATE TABLE `users` (
   `created` int(10) unsigned NOT NULL,
   `updated` int(10) unsigned NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '0',
+  `application_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_unique_id` (`unique_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

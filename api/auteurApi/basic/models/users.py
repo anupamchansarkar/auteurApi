@@ -20,6 +20,7 @@ class Users(models.Model):
     salt = models.CharField(max_length=64)
     created = models.IntegerField(max_length=10)
     updated = models.IntegerField(max_length=10)
+    application_id = models.BigIntegerField(max_length=10)
 
     def set_params(self, *args, **kwargs):
         self.first_name = kwargs['first_name']
@@ -29,6 +30,7 @@ class Users(models.Model):
         if len(self.last_name) > 64:
             raise APIException('last_name cannot be longer than 64 chars')
         self.password = kwargs['password']
+        self.application_id = kwargs['application_id']
 
     def save(self, *args, **kwargs):
         self.active = 1
@@ -71,9 +73,11 @@ class Users(models.Model):
 
     def get_by_id(self, id):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT unique_id, first_name, last_name, created FROM users WHERE id = %s and active = 1", [id])
+            cursor.execute("SELECT u.unique_id, u.first_name, u.last_name, u.created, e.email FROM users as u join emails as e on e.user_id = u.id WHERE u.id = %s and u.active = 1", [id])
             row = cursor.fetchone()
-        return {"unique_id":row[0], "first_name":row[1], "last_name":row[2]}
+            if not row:
+                return False
+        return {"id":row[0], "first_name":row[1], "last_name":row[2], "created":row[3], "email":row[4]}
 
     def validate_password(self, email, password):
         with connection.cursor() as cursor:

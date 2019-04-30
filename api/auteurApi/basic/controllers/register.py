@@ -49,12 +49,11 @@ class Register(Base):
                 res = response.read()
                 output = res.decode('utf-8')
                 output = eval(output)
-                output = {"user_id":output['user_id']}
+                output = {"id":output['user_id']}
                 return self.response(output)
             else:
                 raise APIException("Unable to register user")
         except:
             raise APIException("Unable to register user")
-        
-        
-        # send verification email
+
+        #FOR FUTURE, ADD EMAIL VERIFICATION
