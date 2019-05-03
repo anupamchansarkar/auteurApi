@@ -19,6 +19,8 @@ class Base:
 
         # check authorization
         self.auth = self.request.headers.get('Authorization')
+        if not self.auth:
+            raise APIException('Invalid auth headers')
         if 'Basic' in self.auth and not self.check_basic_auth():
             raise APIException('Invalid auth headers')
         elif 'Bearer' in self.auth and not self.check_bearer_auth():
@@ -26,7 +28,6 @@ class Base:
 
         self.request_method = request.method
         self.payload = request.data
-        self.log.debug(type(self.payload))
 
     def check_basic_auth(self):
         self.basic_token = self.auth.split('Basic ')[1]

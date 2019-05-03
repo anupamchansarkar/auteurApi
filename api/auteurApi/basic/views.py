@@ -6,6 +6,7 @@ from basic.controllers.register import Register
 from basic.controllers.user import User
 from basic.controllers.oauth import Oauth
 from basic.controllers.folder import Folder
+from basic.controllers.script import Script
 import requests
 import logging
 log = logging.getLogger(__name__)
@@ -37,3 +38,12 @@ def user(request, user_id=None):
 def folder(request, folder_id=None):
     folder_obj = Folder(request)
     return folder_obj.get(folder_id)
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def script(request, script_id=None):
+    script_obj = Script(request)
+    if request.method.upper() == 'POST':
+        return script_obj.post()
+    elif request.method.upper() == 'GET':
+        return script_obj.get(script_id)

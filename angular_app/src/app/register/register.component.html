@@ -1,5 +1,19 @@
-﻿<h2>Register</h2>
+﻿<!-- <h2>Register</h2>
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">Last Name is required</div>
+            </div>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+            </div>
+    </div>
     <div class="form-group">
         <label for="first_name">First Name</label>
         <input type="text" formControlName="first_name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }" />
@@ -14,31 +28,136 @@
             <div *ngIf="f.last_name.errors.required">Last Name is required</div>
         </div>
     </div>
-    <div class="form-group">
-        <label for="Email">Email</label>
-        <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-            <div *ngIf="f.email.errors.required">Last Name is required</div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-            <div *ngIf="f.username.errors.required">Username is required</div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Password is required</div>
-            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-        </div>
-    </div>
+    
     <div class="form-group">
         <button [disabled]="loading" class="btn btn-primary">Register</button>
         <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
         <a routerLink="/login" class="btn btn-link">Cancel</a>
     </div>
-</form>
+</form> -->
+
+		<!-- begin:: Page -->
+		<div class="kt-grid kt-grid--ver kt-grid--root">
+                <div class="kt-grid__item  kt-grid__item--fluid kt-grid kt-grid--hor kt-login-v1" id="kt_login_v1">
+    
+                    <!--begin::Item-->
+                    <div class="kt-grid__item">
+    
+                        <!--begin::Heade-->
+                        <div class="kt-login-v1__head">
+                            <div class="kt-login-v1__logo">
+                                <a href="#">
+                                    <img src="./assets/media/logos/ScriptMaestrologo.png" alt="" />
+                                </a>
+                            </div>
+                            <div class="kt-login-v1__signup">
+                                <h4 class="kt-login-v1__heading">Already have an account?</h4>
+                                <a routerLink="/login">Login</a>
+                            </div>
+                        </div>
+    
+                        <!--begin::Head-->
+                    </div>
+    
+                    <!--end::Item-->
+    
+                    <!--begin::Item-->
+                    <div class="kt-grid__item  kt-grid kt-grid--ver  kt-grid__item--fluid">
+    
+                        <!--begin::Body-->
+                        <div class="kt-login-v1__body">
+    
+                            <!--begin::Section-->
+                            <div class="kt-login-v1__section">
+                                <div class="kt-login-v1__info">
+                                    <h3 class="kt-login-v1__intro">The democratization of Hollywood screenwriting</h3>
+                                    <p>Master The Craft</p>
+                                </div>
+                            </div>
+    
+                            <!--begin::Section-->
+    
+                            <!--begin::Separator-->
+                            <div class="kt-login-v1__seaprator"></div>
+    
+                            <!--end::Separator-->
+    
+                            <!--begin::Wrapper-->
+                            <div class="kt-login-v1__wrapper">
+                                <div class="kt-login-v1__container">
+                                    <h3 class="kt-login-v1__title">
+                                        Register
+                                    </h3>
+
+                                    <!--begin::Form-->
+                                    <form class="kt-login-v1__form kt-form" action="" autocomplete="on" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" formControlName="email" placeholder="Email" name="email" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                                <div *ngIf="f.email.errors.required">Email is required</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" formControlName="password" type="password" placeholder="Password" name="password" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                                            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                                <div *ngIf="f.password.errors.required">Password is required</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" formControlName="first_name" placeholder="First Name" name="first_name" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }">
+                                            <div *ngIf="submitted && f.first_name.errors" class="invalid-feedback">
+                                                <div *ngIf="f.first_name.errors.required">First Name is required</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" formControlName="last_name" placeholder="Last Name" name="last_name" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }">
+                                            <div *ngIf="submitted && f.last_name.errors" class="invalid-feedback">
+                                                <div *ngIf="f.last_name.errors.required">Last Name is required</div>
+                                            </div>
+                                        </div>
+                                        <div class="kt-login-v1__actions">
+                                            <a href="#" class="kt-login-v1__forgot">
+                                                Forgot Password ?
+                                            </a>
+                                            <button type="submit" class="btn btn-pill btn-elevate">Register</button>
+                                        </div>
+                                    </form>
+    
+                                </div>
+                            </div>
+    
+                            <!--end::Wrapper-->
+                        </div>
+    
+                        <!--begin::Body-->
+                    </div>
+    
+                    <!--end::Item-->
+    
+                    <!--begin::Item-->
+                    <div class="kt-grid__item">
+                        <div class="kt-login-v1__footer">
+                            <div class="kt-login-v1__menu">
+                                <a href="#">Privacy</a>
+                                <a href="#">Legal</a>
+                                <a href="#">Contact</a>
+                            </div>
+                            <div class="kt-login-v1__copyright">
+                                <a href="#">&copy; 2019 ScriptMaestro</a>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!--end::Item-->
+                </div>
+            </div>
+    
+            <!-- end:: Page -->
+    
+            <!--begin::Page Scripts(used by this page) -->
+            <script src="./assets/js/demo1/pages/custom/general/login.js" type="text/javascript"></script>
+            
+            <!--begin::Page Custom Styles(used by this page) -->
+            <link href="./assets/css/demo1/pages/custom/general/user/login-v1.css" rel="stylesheet" type="text/css" />
+    
+            <!--end::Page Scripts -->
