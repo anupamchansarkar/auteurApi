@@ -11,6 +11,7 @@ export class LoginComponent implements OnInit {
     loading = false;
     submitted = false;
     returnUrl: string;
+    app_data: any;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]
@@ -33,12 +34,18 @@ export class LoginComponent implements OnInit {
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+        this.app_data = await localStorage.getItem('currentUser');
+        if (this.app_data){
+            this.router.navigate(['home']);
+        }
+        
     }
 
     // convenience getter for easy access to form fields
     get f() { return this.loginForm.controls; }
 
-    onSubmit() {
+    async onSubmit() {
         this.submitted = true;
 
         // stop here if form is invalid
@@ -47,13 +54,24 @@ export class LoginComponent implements OnInit {
         }
 
         this.loading = true;
-        this.authenticationService.login(this.f.username.value, this.f.password.value)
+        await this.authenticationService.login(this.f.username.value, this.f.password.value)
             .pipe(first())
             .subscribe(
                 data => {
-                    debugger;
-                    this.authenticationService.get_user(data);
-                    this.router.navigate([this.returnUrl]);
+                    this.getUser(data);
+                },
+                error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
+    }
+
+    private async getUser(data: string) {
+        await this.authenticationService.get_user(data)
+            .pipe(first())
+            .subscribe( 
+                data => {
+                    this.router.navigate(['home']);
                 },
                 error => {
                     this.alertService.error(error);

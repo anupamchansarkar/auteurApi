@@ -3,30 +3,57 @@ import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { User } from '@app/_models';
-import { UserService, AuthenticationService } from '@app/_services';
+import {Router} from '@angular/router';
+import { UserService, AuthenticationService, AlertService } from '@app/_services';
 
 @Component({ templateUrl: 'home.component.html' })
-export class HomeComponent implements OnInit, OnDestroy {
-    currentUser: User;
-    currentUserSubscription: Subscription;
-    users: User[] = [];
+export class HomeComponent implements OnInit {
+    currentUser: any;
+    testUser: any;
+    scriptFolderId: string;
+    loading = false;
+    users: any[] = [];
+    folderdata: any;
 
     constructor(
         private authenticationService: AuthenticationService,
-        private userService: UserService
+        private userService: UserService,
+        private router: Router,
+        private alertService: AlertService
     ) {
-        this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
-            this.currentUser = user;
-        });
+        
     }
 
-    ngOnInit() {
+    async ngOnInit() {
+        this.currentUser = await localStorage.getItem('currentUser');
+        this.currentUser = JSON.parse(this.currentUser);
 
+
+        // get folder scripts
+        this.loading = true;
+        for (var i in this.currentUser.folder_details) {
+            if (this.currentUser.folder_details[i].name == 'Scripts'){
+                this.scriptFolderId = this.currentUser.folder_details[i].id;
+            }
+        }
+
+        await this.userService.get_folders(this.scriptFolderId, this.currentUser.access_token)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.folderdata = data;
+                },
+                error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
     }
 
-    ngOnDestroy() {
-        // unsubscribe to ensure no memory leaks
-        this.currentUserSubscription.unsubscribe();
+    logout() {
+        // remove user from local storage to log user out
+        localStorage.removeItem('currentUser');
+        this.currentUser = null;
+        this.router.navigate([""]);
     }
     
 }
