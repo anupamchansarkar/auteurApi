@@ -160,7 +160,7 @@
                         <div class="kt-portlet__body kt-portlet__body--fluid">
                           <div class="kt-widget-21">
                             <div class="kt-widget-21__title">
-                              <div class="kt-widget-21__label">Dialogs:</div>
+                              <div class="kt-widget-21__label">Ratio: {{ratio}}</div>
                               <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
                             </div>
                             <div class="kt-widget-21__data">
@@ -169,15 +169,15 @@
                               <div class="kt-widget-21__legends">
                                 <div class="kt-widget-21__legend">
                                   <i class="kt-bg-success"></i>
-                                  <span>Yours:<span id="yours">{{yours}}</span></span>
+                                  <span>Dialogs: <span id="yours">{{script_scores.dialog_ratio.yours}}</span></span>
                                 </div>
                                 <div class="kt-widget-21__legend">
                                   <i class="kt-bg-warning"></i>
-                                  <span>Standard:<span id="standard">{{standard}}</span></span>
+                                  <span>Scenes: <span id="standard">{{script_scores.dialog_ratio.standard}}</span></span>
                                 </div>
                               </div>
                               <div class="kt-widget-21__chart">
-                                <div class="kt-widget-21__stat">+10%</div>
+                                <div class="kt-widget-21__stat">{{ratio}}</div>
   
                                 <!--Doc: For the chart initialization refer to "widgetTechnologiesChart2" function in "src\theme\app\scripts\custom\dashboard.js" -->
                                 <canvas id="kt_widget_technologies_chart_2" style="height: 110px; width: 110px;"><script src="dashboard.js" type="text/javascript"></script></canvas>
@@ -201,7 +201,7 @@
                           <div class="kt-portlet__body kt-portlet__body--fluid">
                             <div class="kt-widget-21">
                               <div class="kt-widget-21__title">
-                                <div class="kt-widget-21__label">Scene Length:</div>
+                                <div class="kt-widget-21__label">Scene Length: {{script_scores.avg_scene_length}}</div>
                                 <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
                               </div>
                             </div>
@@ -222,7 +222,7 @@
                             <div class="kt-portlet__body kt-portlet__body--fluid">
                               <div class="kt-widget-21">
                                 <div class="kt-widget-21__title">
-                                  <div class="kt-widget-21__label">Total Pages:</div>
+                                  <div class="kt-widget-21__label">Total Pages: {{script_scores.pages}}</div>
                                   <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
                                 </div>
                               </div>

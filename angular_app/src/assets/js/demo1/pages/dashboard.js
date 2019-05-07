@@ -233,7 +233,7 @@ var KTDashboard = function() {
             data: {
                 datasets: [{
                     data: [
-                        document.getElementById("standard").innerHTML, 0, document.getElementById("yours").innerHTML
+                        40, 0, 60
                     ],
                     backgroundColor: [                                                                 
                         KTApp.getStateColor('warning'),

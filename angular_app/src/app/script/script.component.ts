@@ -22,6 +22,7 @@ export class ScriptComponent implements OnInit {
   script_scores: any;
   yours: any;
   standard: any;
+  ratio: any;
 
   constructor(private router: Router,
   private authenticationService: AuthenticationService,
@@ -63,6 +64,7 @@ export class ScriptComponent implements OnInit {
                 .subscribe(
                     data => {
                         this.script_scores = data;
+                        this.ratio = "150%";
                         console.log(this.script_scores);
                         this.loading = true;
                     },
