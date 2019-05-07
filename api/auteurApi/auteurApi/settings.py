@@ -153,6 +153,9 @@ AUTHENTICATION_BACKENDS = (
     'oauth2_provider.backends.OAuth2Backend',
 )
 
+UPLOADS_FOLDER = '/var/www/api/uploads'
+SCRIPTS_FOLDER = '/var/www/api/scripts'
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,

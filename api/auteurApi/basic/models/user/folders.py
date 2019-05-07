@@ -67,6 +67,12 @@ class User_folders(models.Model):
                 row = cursor.fetchone()
         return folders
 
+    def get_script_folder_id(self, user_id):
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id FROM user_folders WHERE user_id = %s and name = 'Scripts'", [user_id])
+            row = cursor.fetchone()
+            return row[0]
+
     def check_folder_access(self, user_id, folder_unique_id):
         with connection.cursor() as cursor:
             cursor.execute("SELECT id FROM user_folders WHERE user_id = %s and unique_id = %s and parent_id is not NULL and permissions != 0 and name != 'Deleted'", [user_id, folder_unique_id])
