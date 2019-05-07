@@ -6,6 +6,8 @@ import { User } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+    saved_script: any;
+
     constructor(private http: HttpClient) { }
      basicheaders = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -24,5 +26,20 @@ export class UserService {
             'Authorization':  "Bearer " + access_token
         });
         return this.http.get<any>(`${environment.apiUrl}/folder/${id}`, {headers:localheaders});
+    }
+
+    save_script(script: any) {
+        this.saved_script = script;
+    }
+
+    get_saved_script() {
+        return this.saved_script;
+    }
+
+    get_script_details(id: string, access_token: string) {
+        let localheaders = new HttpHeaders({
+            'Authorization':  "Bearer " + access_token
+        });
+        return this.http.get<any>(`${environment.apiUrl}/script/${id}/details`, {headers:localheaders});
     }
 }

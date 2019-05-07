@@ -93,6 +93,11 @@ export class HomeComponent implements OnInit {
                 });
     }
 
+    select_document(script) {
+        this.userService.save_script(script);
+        this.router.navigate(['script']);
+    }
+
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
