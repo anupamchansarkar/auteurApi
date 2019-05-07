@@ -7,6 +7,7 @@ from basic.controllers.user import User
 from basic.controllers.oauth import Oauth
 from basic.controllers.folder import Folder
 from basic.controllers.script import Script
+from basic.controllers.script_details import Script_Details
 import requests
 import logging
 log = logging.getLogger(__name__)
@@ -47,3 +48,9 @@ def script(request, script_id=None):
         return script_obj.post()
     elif request.method.upper() == 'GET':
         return script_obj.get(script_id)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def script_details(request, script_id):
+    script_details_obj = Script_Details(request)
+    return script_details_obj.get(script_id)

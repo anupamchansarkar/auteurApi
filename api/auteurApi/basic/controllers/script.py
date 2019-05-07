@@ -17,9 +17,6 @@ class Script(Base):
         self.MAX_FILE_SIZE = 52428800
         self.ALLOWED_FILE_TYPES = ['pdf']
 
-    def get(self, script_id):
-        return self.response("success")
-
     def post(self):
         file_path, file_name = self.process_document_upload()
         processed_file_name, text_file_name = self.check_file_contents(file_path, file_name)
@@ -120,6 +117,3 @@ class Script(Base):
         os.rename(processed_file_name, saved_file_name)
 
         return script_unique_id
-        
-        
-        
