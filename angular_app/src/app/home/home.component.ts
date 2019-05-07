@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { User } from '@app/_models';
 import {Router} from '@angular/router';
 import { UserService, AuthenticationService, AlertService } from '@app/_services';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 @Component({ templateUrl: 'home.component.html' })
 export class HomeComponent implements OnInit {
@@ -28,20 +29,62 @@ export class HomeComponent implements OnInit {
         this.currentUser = await localStorage.getItem('currentUser');
         this.currentUser = JSON.parse(this.currentUser);
 
-
         // get folder scripts
         this.loading = true;
+        if (!this.folderdata) {
+            console.log("Reloading data");
+            for (var i in this.currentUser.folder_details) {
+                if (this.currentUser.folder_details[i].name == 'Scripts'){
+                    this.scriptFolderId = this.currentUser.folder_details[i].id;
+                }
+            }
+
+            await this.userService.get_folders(this.scriptFolderId, this.currentUser.access_token)
+                .pipe(first())
+                .subscribe(
+                    data => {
+                        this.folderdata = data;
+                    },
+                    error => {
+                        this.alertService.error(error);
+                        this.loading = false;
+                    });
+        }
+    }
+
+    async get_scripts_folder() {
         for (var i in this.currentUser.folder_details) {
             if (this.currentUser.folder_details[i].name == 'Scripts'){
                 this.scriptFolderId = this.currentUser.folder_details[i].id;
             }
         }
-
         await this.userService.get_folders(this.scriptFolderId, this.currentUser.access_token)
             .pipe(first())
             .subscribe(
                 data => {
                     this.folderdata = data;
+                    console.log(this.folderdata)
+                    this.router.navigate(['/home']);
+                },
+                error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
+    }
+
+    async get_archive_folder() {
+        for (var i in this.currentUser.folder_details) {
+            if (this.currentUser.folder_details[i].name == 'Archive'){
+                this.scriptFolderId = this.currentUser.folder_details[i].id;
+            }
+        }
+        await this.userService.get_folders(this.scriptFolderId, this.currentUser.access_token)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.folderdata = data;
+                    console.log(this.folderdata)
+                    this.router.navigate(['/home']);
                 },
                 error => {
                     this.alertService.error(error);
