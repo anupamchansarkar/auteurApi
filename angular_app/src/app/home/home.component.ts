@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit {
         this.currentUser = JSON.parse(this.currentUser);
 
         // get folder scripts
-        this.loading = true;
         if (!this.folderdata) {
             console.log("Reloading data");
             for (var i in this.currentUser.folder_details) {
@@ -44,6 +43,7 @@ export class HomeComponent implements OnInit {
                 .subscribe(
                     data => {
                         this.folderdata = data;
+                        this.loading = true;
                         console.log(this.folderdata)
                     },
                     error => {

@@ -32,15 +32,13 @@ export class ScriptComponent implements OnInit {
   }
 
   async ngOnInit() {
-        this.yours = 45;
-        this.standard = 55;
         this.currentUser = await localStorage.getItem('currentUser');
 
         this.currentUser = JSON.parse(this.currentUser);
 
         // get folder scripts
-        this.loading = true;
         if (!this.folderdata) {
+            this.script = await this.userService.get_saved_script();
             console.log("Reloading data");
             for (var i in this.currentUser.folder_details) {
                 if (this.currentUser.folder_details[i].name == 'Scripts'){
@@ -54,28 +52,25 @@ export class ScriptComponent implements OnInit {
                     data => {
                         this.folderdata = data;
                         console.log(this.folderdata)
+                        
+                    },
+                    error => {
+                        this.alertService.error(error);
+                        this.loading = false;
+                    });
+            await this.userService.get_script_details(this.script.id, this.currentUser.access_token)
+                .pipe(first())
+                .subscribe(
+                    data => {
+                        this.script_scores = data;
+                        console.log(this.script_scores);
+                        this.loading = true;
                     },
                     error => {
                         this.alertService.error(error);
                         this.loading = false;
                     });
           }
-
-          this.script = await this.userService.get_saved_script();
-          console.log(this.script);
-          // get Script details
-          await this.userService.get_script_details(this.script.id, this.currentUser.access_token)
-              .pipe(first())
-              .subscribe(
-                  data => {
-                      this.script_scores = data;
-                      console.log(this.script_scores);
-                  },
-                  error => {
-                      this.alertService.error(error);
-                      this.loading = false;
-                  });
-          
   }
 
   logout() {
