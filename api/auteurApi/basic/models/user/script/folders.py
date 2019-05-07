@@ -39,7 +39,7 @@ class User_script_folders(models.Model):
 
     def get_scripts(self, user_id, folder_id):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT s.unique_id, s.script_name, s.created, s.updated, s.page_count FROM scripts as s join user_script_folders as usf on usf.user_id = s.user_id WHERE usf.user_id = %s and \
+            cursor.execute("SELECT distinct(s.unique_id), s.script_name, s.created, s.updated, s.page_count FROM scripts as s join user_script_folders as usf on usf.user_id = s.user_id WHERE usf.user_id = %s and \
                            usf.user_folder_id = %s and usf.permissions != 0 order by s.created desc", [user_id, folder_id])
             scripts = []
             row = cursor.fetchone()
