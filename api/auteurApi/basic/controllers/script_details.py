@@ -12,7 +12,8 @@ class Script_Details(Base):
 
     def get(self, in_url):
         self.log.debug(in_url)
-        script_unique_id = in_url.strip('/details')
+        script_unique_id = in_url.split("/")[0]
+        self.log.debug(script_unique_id)
         script_obj = Scripts()
         data = script_obj.get_by_unique_id(script_unique_id)
         r = {"dialog_ratio":{"standard":40, "yours":60}, "avg_scene_length":"100 lines", "pages":data['page_count']}
