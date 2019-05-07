@@ -11,4 +11,5 @@ class Script_Details(Base):
         super().__init__(request)
 
     def get(self, script_unique_id):
-        return self.response("success")
+        r = {"dialog_ratio":50}
+        return self.response(r)
