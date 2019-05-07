@@ -44,6 +44,7 @@ export class HomeComponent implements OnInit {
                 .subscribe(
                     data => {
                         this.folderdata = data;
+                        console.log(this.folderdata)
                     },
                     error => {
                         this.alertService.error(error);
