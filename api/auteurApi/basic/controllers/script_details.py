@@ -15,5 +15,5 @@ class Script_Details(Base):
         script_unique_id = in_url.strip('/details')
         script_obj = Scripts()
         data = script_obj.get_by_unique_id(script_unique_id)
-        r = {"dialog_ratio":40, "avg_scene_length": "100 lines", "pages":data['page_count']}
+        r = {"dialog_ratio":{"standard":40, "yours":60}, "avg_scene_length":"100 lines", "pages":data['page_count']}
         return self.response(r)
