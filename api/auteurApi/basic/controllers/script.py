@@ -89,6 +89,8 @@ class Script(Base):
         page_count = self.get_page_count(file_path)
         in_name = self.request.FILES['file'].name
         clean_name = re.sub(r'\W+', '', in_name)
+        clean_name = clean_name.replace('pdf', '')
+        clean_name = '%s.pdf' % (clean_name)
         script_obj = Scripts()
         script_obj.set_params(script_name=clean_name,user_id=self.user_id,application_id=self.application_id,page_count=page_count, file_type=1)
         script_unique_id = script_obj.save()
