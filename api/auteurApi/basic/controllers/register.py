@@ -1,6 +1,6 @@
 from urllib import request, parse
 
-from rest_framework.exceptions import APIException
+from rest_framework import exceptions
 from django.core.validators import validate_email
 from django.conf import settings
 from .base import Base
@@ -15,23 +15,23 @@ class Register(Base):
     def validate_payload(self):
         self.first_name = self.payload.get('first_name')
         if not self.first_name:
-            raise APIException('first_name cannot be empty')
+            raise exceptions.ValidationError('first_name cannot be empty')
         self.last_name = self.payload.get('last_name')
         if not self.last_name:
-            raise APIException('last_name cannot be empty')
+            raise exceptions.ValidationError('last_name cannot be empty')
         self.password = self.payload.get('password')
         if not self.password:
-            raise APIException('password cannot be empty')
+            raise exceptions.ValidationError('password cannot be empty')
         self.email = self.payload.get('email')
         try:
             validate_email(self.email)
         except:
-            raise APIException('Invalid email')
+            raise exceptions.ValidationError('Invalid email')
         if not self.email:
-            raise APIException('email cannot be empty')
+            raise exceptions.ValidationError('email cannot be empty')
         emails = Emails()
         if emails.get_by_email(self.email):
-            raise APIException('Email already registered')
+            raise exceptions.ValidationError('Email already registered')
 
     def post(self):
         # If it is valid, save the data (creates a user).
@@ -53,8 +53,10 @@ class Register(Base):
                 output = {"id":output['id']}
                 return self.response(output)
             else:
-                raise APIException("Unable to register user")
+                self.log.error(res)
+                raise exceptions.APIException("Unable to register user")
         except:
-            raise APIException("Unable to register user")
+            self.log.error("Failed to register user")
+            raise exceptions.APIException("Unable to register user")
 
         #FOR FUTURE, ADD EMAIL VERIFICATION

@@ -1,6 +1,6 @@
 from django.core.validators import validate_email
 from django.core.files.storage import FileSystemStorage
-from rest_framework.exceptions import APIException
+from rest_framework import exceptions
 from django.conf import settings
 from .base import Base
 
@@ -31,16 +31,16 @@ class Script(Base):
 
     def process_document_upload(self):
         if len(self.request.FILES) != 1:
-            raise APIException('Must upload one file')
+            raise exceptions.ValidationError('Must upload one file')
 
         infile = self.request.FILES['file']
         if infile.size > self.MAX_FILE_SIZE:
-            raise APIException('Exceeded max file size of 50MB')
+            raise exceptions.ValidationError('Exceeded max file size of 50MB')
 
         file_name = infile.name
         parts = file_name.split('.')
         if parts[-1].lower() not in self.ALLOWED_FILE_TYPES:
-            raise APIException('Must upload pdf document')
+            raise exceptions.ValidationError('Must upload pdf document')
 
         message = {"application": self.application_id,
                    "FILE": infile.name,
@@ -69,7 +69,7 @@ class Script(Base):
         subprocess.call(['pdftotext', '-layout', file_path, text_file_name])
         file_size = os.path.getsize(text_file_name)
         if file_size < 300:
-            raise APIException('Cannot process scanned documents')
+            raise exceptions.ValidationError('Cannot process scanned documents')
 
         processed_file_name = "%s/%s_%s_processed.txt" % (settings.UPLOADS_FOLDER, unique_id, re.sub(r'\W+', '', in_name))
         subprocess.call(['/usr/bin/python3.6', '/root/auteurApi/py_scripts/text_parser.py', '--input', text_file_name, '--output', processed_file_name])

@@ -1,4 +1,4 @@
-from rest_framework.exceptions import APIException
+from rest_framework import exceptions
 from django.db import models
 from django.db import connection
 import bcrypt, time, os, binascii
@@ -25,10 +25,10 @@ class Users(models.Model):
     def set_params(self, *args, **kwargs):
         self.first_name = kwargs['first_name']
         if len(self.first_name) > 64:
-            raise APIException('first_name cannot be longer than 64 chars')
+            raise exceptions.ValidationError('first_name cannot be longer than 64 chars')
         self.last_name = kwargs['last_name']
         if len(self.last_name) > 64:
-            raise APIException('last_name cannot be longer than 64 chars')
+            raise exceptions.ValidationError('last_name cannot be longer than 64 chars')
         self.password = kwargs['password']
         self.application_id = kwargs['application_id']
 

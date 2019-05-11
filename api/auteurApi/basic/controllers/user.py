@@ -1,5 +1,5 @@
 from django.core.validators import validate_email
-from rest_framework.exceptions import APIException
+from rest_framework import exceptions
 from .base import Base
 from basic.models.users import Users
 from basic.models.emails import Emails
@@ -14,23 +14,23 @@ class User(Base):
     def validate_payload(self):
         self.first_name = self.payload.get('first_name')
         if not self.first_name:
-            raise APIException('first_name cannot be empty')
+            raise exceptions.ValidationError('first_name cannot be empty')
         self.last_name = self.payload.get('last_name')
         if not self.last_name:
-            raise APIException('last_name cannot be empty')
+            raise exceptions.ValidationError('last_name cannot be empty')
         self.password = self.payload.get('password')
         if not self.password:
-            raise APIException('password cannot be empty')
+            raise exceptions.ValidationError('password cannot be empty')
         self.email = self.payload.get('email')
         try:
             validate_email(self.email)
         except:
-            raise APIException('Invalid email')
+            raise exceptions.ValidationError('Invalid email')
         if not self.email:
-            raise APIException('email cannot be empty')
+            raise exceptions.ValidationError('email cannot be empty')
         emails = Emails()
         if emails.get_by_email(self.email):
-            raise APIException('Email already registered')
+            raise exceptions.ValidationError('Email already registered')
 
     def post(self):
         # If it is valid, save the data (creates a user).
@@ -42,7 +42,7 @@ class User(Base):
         self.unique_id = users_obj.save()
 
         if not self.unique_id:
-            raise APIException("unable to save data")
+            raise exceptions.FieldError("unable to save data")
 
         self.user_id = users_obj.get_by_unique_id(self.unique_id)
 
@@ -73,7 +73,7 @@ class User(Base):
         user_obj = Users()
         user_details = user_obj.get_by_id(self.user_id)
         if not user_details:
-            raise APIException("User not found")
+            raise exceptions.FieldDoesNotExist("User not found")
 
         # folder details
         user_folder_obj = User_folders()

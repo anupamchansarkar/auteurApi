@@ -1,4 +1,3 @@
-from rest_framework.exceptions import APIException
 from django.db import models
 from django.db import connection
 import time, os, binascii
@@ -61,9 +60,9 @@ class User_folders(models.Model):
         with connection.cursor() as cursor:
             cursor.execute("SELECT unique_id, name FROM user_folders WHERE user_id = %s and parent_id is not NULL and permissions != 0 and name != 'Deleted'", [user_id])
             row = cursor.fetchone()
-            folders = []
+            folders = {}
             while row:
-                folders.append({"id":row[0], "name":row[1]})
+                folders[row[1]] = row[0]
                 row = cursor.fetchone()
         return folders
 

@@ -1,6 +1,5 @@
 from django.core.validators import validate_email
 from django.core.files.storage import FileSystemStorage
-from rest_framework.exceptions import APIException
 from django.conf import settings
 from .base import Base
 
