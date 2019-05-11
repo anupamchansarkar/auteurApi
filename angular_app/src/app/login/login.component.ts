@@ -7,11 +7,11 @@ import { AlertService, AuthenticationService } from '@app/_services';
 
 @Component({templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
-    loginForm: FormGroup;
-    loading = false;
+    loginForm: FormGroup
     submitted = false;
     returnUrl: string;
     app_data: any;
+    scriptFolderId: any;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private alertService: AlertService
     ) {
-        // redirect to home if already logged in
+        // redirect to folder if already logged in
         if (this.authenticationService.currentUserValue) { 
             this.router.navigate(['/']);
         }
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
 
         this.app_data = await localStorage.getItem('currentUser');
         if (this.app_data){
-            this.router.navigate(['home']);
+            this.router.navigate(['folder']);
         }
         
     }
@@ -53,29 +53,25 @@ export class LoginComponent implements OnInit {
             return;
         }
 
-        this.loading = true;
         await this.authenticationService.login(this.f.username.value, this.f.password.value)
-            .pipe(first())
             .subscribe(
                 data => {
+                    console.log('came here');
                     this.getUser(data);
                 },
                 error => {
                     this.alertService.error(error);
-                    this.loading = false;
                 });
     }
 
     private async getUser(data: string) {
         await this.authenticationService.get_user(data)
-            .pipe(first())
             .subscribe( 
                 data => {
-                    this.router.navigate(['home']);
+                    this.router.navigate(['folder', data.folder_details.Scripts]);
                 },
                 error => {
                     this.alertService.error(error);
-                    this.loading = false;
                 });
     }
 }

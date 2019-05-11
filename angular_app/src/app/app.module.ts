@@ -11,7 +11,7 @@ import { routing }        from './app.routing';
 
 import { AlertComponent } from './_components';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
-import { HomeComponent } from './home';
+import { FolderComponent } from './folder';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';;
 import { ScriptComponent } from './script/script.component'
@@ -26,7 +26,7 @@ import { ScriptComponent } from './script/script.component'
     declarations: [
         AppComponent,
         AlertComponent,
-        HomeComponent,
+        FolderComponent,
         LoginComponent,
         RegisterComponent
 ,

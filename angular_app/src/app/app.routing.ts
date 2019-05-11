@@ -1,18 +1,18 @@
 ﻿import { Routes, RouterModule } from '@angular/router';
 
-import { HomeComponent } from './home';
+import { FolderComponent } from './folder';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 import { AuthGuard } from './_guards';
 import { ScriptComponent } from './script/script.component';
 
 const appRoutes: Routes = [
-    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'folder/:id', component: FolderComponent, canActivate: [AuthGuard] },
     { path: '', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'script', component: ScriptComponent },
 
-    // otherwise redirect to home
+    // otherwise redirect to login
     { path: '**', redirectTo: '' }
 ];
 

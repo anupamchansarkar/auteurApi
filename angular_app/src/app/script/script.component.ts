@@ -94,7 +94,7 @@ export class ScriptComponent implements OnInit {
             data => {
                 this.folderdata = data;
                 console.log(this.folderdata)
-                this.router.navigate(['/home']);
+                this.router.navigate(['/folder']);
             },
             error => {
                 this.alertService.error(error);
@@ -114,7 +114,7 @@ export class ScriptComponent implements OnInit {
               data => {
                   this.folderdata = data;
                   console.log(this.folderdata)
-                  this.router.navigate(['/home']);
+                  this.router.navigate(['/folder']);
               },
               error => {
                   this.alertService.error(error);

@@ -1,4 +1,4 @@
-﻿    <div class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--fixed kt-page--loading">
+﻿    <div *ngIf="loading" class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--fixed kt-page--loading">
 
 		<!-- begin:: Header Mobile -->
 		<div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
@@ -28,7 +28,7 @@
                     <!-- begin::Aside Brand -->
                     <div class="kt-aside__brand kt-grid__item " id="kt_aside_brand">
                         <div class="kt-aside__brand-logo">
-                            <a routerLink="/home">
+                            <a routerLink="/folder">
                                 <img width="200"  src="./assets/media/logos/ScriptMaestro_SBug.png"  />
                             </a>
                         </div>
@@ -42,11 +42,11 @@
                     <div class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrapper">
                         <div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1" data-ktmenu-dropdown-timeout="2500">
                             <ul class="kt-menu__nav ">
-                                <div class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a role="button" (click)="get_scripts_folder()" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Scripts</span></a>
+                                <div class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a role="button" (click)="get_folder('Scripts')" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Scripts</span></a>
                                 </div>
                             </ul>
                             <ul class="kt-menu__nav ">
-                                <div class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a role="button" (click)="get_archive_folder()" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Archive</span></a>
+                                <div class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a role="button" (click)="get_folder('Archive')" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Archive</span></a>
                                 </div>
                             </ul>
                         </div>

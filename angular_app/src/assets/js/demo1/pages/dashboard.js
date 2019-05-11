@@ -220,9 +220,7 @@ var KTDashboard = function() {
     }
 
     var widgetTechnologiesChart2 = function() {
-        if ($('#kt_widget_technologies_chart_2').length == 0) {
-            return;
-        }
+        
 
         var randomScalingFactor = function() {
             return Math.round(Math.random() * 100);
