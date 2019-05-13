@@ -29,7 +29,7 @@ class Oauth(Base):
         self.email = self.payload.get('email')
         emails = Emails()
         if not emails.get_by_email(self.email):
-            raise exceptions.AuthenticationFailed('Invalid Email/Password')
+            raise exceptions.AuthenticationFailed(detail='Invalid Email/Password')
         
         self.password = self.payload.get('password')
         users = Users()
@@ -39,20 +39,20 @@ class Oauth(Base):
 
         self.grant_type = self.payload.get('grant_type')
         if self.grant_type not in self.valid_grant_types:
-            raise exceptions.AuthenticationFailed('Invalid grant_type')
+            raise exceptions.AuthenticationFailed(detail='Invalid grant_type')
 
         if self.grant_type == 'refesh_token':
             refresh_token = self.payload.get('refresh_token', None)
             if not refresh_token:
-                raise exceptions.AuthenticationFailed('Invalid refresh_token')
+                raise exceptions.AuthenticationFailed(detail='Invalid refresh_token')
             oauth_obj = Oauths()
             if not oauth_obj.check_refresh_token(refresh_token):
-                raise exceptions.AuthenticationFailed('Invalid refresh_token')
+                raise exceptions.AuthenticationFailed(detail='Invalid refresh_token')
 
         self.scope = self.payload.get('scope')
 
         self.expiration_time = self.payload.get('expiration_time', None)
         if self.expiration_time and (int(self.expiration_time) > self.default_expiration or int(self.expiration_time) == 0):
-            raise exceptions.AuthenticationFailed('Invalid expiration time')
+            raise exceptions.AuthenticationFailed(detail='Invalid expiration time')
         
         self.expiration_time = self.expiration_time if self.expiration_time else self.default_expiration

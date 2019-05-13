@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
     returnUrl: string;
     app_data: any;
     scriptFolderId: any;
+    login_error = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -47,6 +48,7 @@ export class LoginComponent implements OnInit {
 
     async onSubmit() {
         this.submitted = true;
+        this.login_error = false;
 
         // stop here if form is invalid
         if (this.loginForm.invalid) {
@@ -56,22 +58,25 @@ export class LoginComponent implements OnInit {
         await this.authenticationService.login(this.f.username.value, this.f.password.value)
             .subscribe(
                 data => {
-                    console.log('came here');
                     this.getUser(data);
                 },
                 error => {
-                    this.alertService.error(error);
+                    this.login_error = true;
+                    console.log('I came here in the error section');
+                    
                 });
     }
 
     private async getUser(data: string) {
         await this.authenticationService.get_user(data)
+            .pipe(first())
             .subscribe( 
                 data => {
                     this.router.navigate(['folder', data.folder_details.Scripts]);
                 },
                 error => {
-                    this.alertService.error(error);
+                    this.login_error = true;
+                    console.log('I came here in the error section');
                 });
     }
 }
