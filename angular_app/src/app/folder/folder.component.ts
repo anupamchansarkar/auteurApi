@@ -1,7 +1,7 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import { UserService, AlertService } from '@app/_services';
 
 @Component({ templateUrl: 'folder.component.html' })
@@ -10,10 +10,12 @@ export class FolderComponent implements OnInit {
     testUser: any;
     loading = false;
     users: any[] = [];
-    folderdata: any;
+    folderData: any;
+    folderId: any;
 
     constructor(
         private userService: UserService,
+        private route: ActivatedRoute,
         private router: Router,
         private alertService: AlertService
     ) {
@@ -23,32 +25,39 @@ export class FolderComponent implements OnInit {
     async ngOnInit() {
         this.currentUser = await localStorage.getItem('currentUser');
         this.currentUser = JSON.parse(this.currentUser);
+        this.folderId = this.route.snapshot.params.id;
+        await this.userService.getFolders(this.folderId, this.currentUser.access_token)
+            .subscribe(
+                data => {
+                    this.folderData = data;
+                    this.loading = true;
+                },
+                error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
+    }
 
-        // get folder scripts
-        if (!this.folderdata) {
-
-            await this.userService.get_folders(this.currentUser.folder_details.Scripts, this.currentUser.access_token)
-                .pipe(first())
-                .subscribe(
-                    data => {
-                        this.folderdata = data;
-                        console.log(this.folderdata)
-                    },
-                    error => {
-                        this.alertService.error(error);
-                        this.loading = false;
-                    });
-                this.loading = true;
+    getFolder(folderName) {
+        if (folderName == 'Scripts') {
+            this.router.navigate(['/folder', this.currentUser.folder_details.Scripts]);
+            this.ngOnInit();
+            this.loading = false;
+        } else {
+            this.router.navigate(['/folder', this.currentUser.folder_details.Archive]);
+            this.ngOnInit();
+            this.loading = false;
         }
     }
 
-    get_folder(folderName) {
-       this.router.navigate(['/folder', this.currentUser.folder_details.folderName]);
+    selectDocument(script) {
+        this.router.navigate(['script', script.id]);
     }
 
-    select_document(script) {
-        this.userService.save_script(script);
-        this.router.navigate(['script']);
+    goHome() {
+        this.router.navigate(['/folder', this.currentUser.folder_details.Scripts]);
+        this.ngOnInit();
+        this.loading = false;
     }
 
     logout() {
@@ -57,5 +66,4 @@ export class FolderComponent implements OnInit {
         this.currentUser = null;
         this.router.navigate([""]);
     }
-    
 }

@@ -3,23 +3,22 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AlertService, AuthenticationService } from '@app/_services';
+import {AuthenticationService } from '@app/_services';
 
 @Component({templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
     loginForm: FormGroup
     submitted = false;
     returnUrl: string;
-    app_data: any;
+    appData: any;
     scriptFolderId: any;
-    login_error = false;
+    loginError = false;
 
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private alertService: AlertService
     ) {
         // redirect to folder if already logged in
         if (this.authenticationService.currentUserValue) { 
@@ -36,8 +35,8 @@ export class LoginComponent implements OnInit {
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
-        this.app_data = await localStorage.getItem('currentUser');
-        if (this.app_data){
+        this.appData = await localStorage.getItem('currentUser');
+        if (this.appData){
             this.router.navigate(['folder']);
         }
         
@@ -48,7 +47,7 @@ export class LoginComponent implements OnInit {
 
     async onSubmit() {
         this.submitted = true;
-        this.login_error = false;
+        this.loginError = false;
 
         // stop here if form is invalid
         if (this.loginForm.invalid) {
@@ -61,22 +60,19 @@ export class LoginComponent implements OnInit {
                     this.getUser(data);
                 },
                 error => {
-                    this.login_error = true;
-                    console.log('I came here in the error section');
-                    
+                    this.loginError = true;
                 });
     }
 
     private async getUser(data: string) {
-        await this.authenticationService.get_user(data)
+        await this.authenticationService.getUser(data)
             .pipe(first())
             .subscribe( 
                 data => {
                     this.router.navigate(['folder', data.folder_details.Scripts]);
                 },
                 error => {
-                    this.login_error = true;
-                    console.log('I came here in the error section');
+                    this.loginError = true;
                 });
     }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
@@ -14,112 +14,64 @@ import { UserService, AuthenticationService, AlertService } from '@app/_services
 
 export class ScriptComponent implements OnInit {
 
-  currentUser: any;
-  loading = false;
-  folderdata: any;
-  scriptFolderId: string;
-  script: any;
-  script_scores: any;
-  yours: any;
-  standard: any;
-  ratio: any;
+    currentUser: any;
+    loading = false;
+    scriptFolderId: string;
+    scriptId: any;
+    scriptScores: any;
+    yours: any;
+    standard: any;
+    ratio: any;
 
-  constructor(private router: Router,
-  private authenticationService: AuthenticationService,
-  private userService: UserService,
-  private alertService: AlertService
+    constructor(private router: Router,
+    private userService: UserService,
+    private alertService: AlertService,
+    private route: ActivatedRoute,
     ) { 
-    
-  }
+        
+    }
 
-  async ngOnInit() {
+    async ngOnInit() {
         this.currentUser = await localStorage.getItem('currentUser');
-
         this.currentUser = JSON.parse(this.currentUser);
 
         // get folder scripts
-        if (!this.folderdata) {
-            this.script = await this.userService.get_saved_script();
-            console.log("Reloading data");
-            for (var i in this.currentUser.folder_details) {
-                if (this.currentUser.folder_details[i].name == 'Scripts'){
-                    this.scriptFolderId = this.currentUser.folder_details[i].id;
-                }
-            }
+        this.scriptId = this.route.snapshot.params.id;
+        await this.userService.getScriptDetails(this.scriptId, this.currentUser.access_token)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.scriptScores = data;
+                    this.ratio = "150%";
+                    this.loading = true;
+                },
+                error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
+    }
 
-            await this.userService.get_folders(this.scriptFolderId, this.currentUser.access_token)
-                .pipe(first())
-                .subscribe(
-                    data => {
-                        this.folderdata = data;
-                        console.log(this.folderdata)
-                        
-                    },
-                    error => {
-                        this.alertService.error(error);
-                        this.loading = false;
-                    });
-            await this.userService.get_script_details(this.script.id, this.currentUser.access_token)
-                .pipe(first())
-                .subscribe(
-                    data => {
-                        this.script_scores = data;
-                        this.ratio = "150%";
-                        console.log(this.script_scores);
-                        this.loading = true;
-                    },
-                    error => {
-                        this.alertService.error(error);
-                        this.loading = false;
-                    });
-          }
-  }
+    logout() {
+        // remove user from local storage to log user out
+        localStorage.removeItem('currentUser');
+        this.currentUser = null;
+        this.router.navigate([""]);
+    }
 
-  logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
-    this.currentUser = null;
-    this.router.navigate([""]);
-  }
-
-  async get_scripts_folder() {
-    for (var i in this.currentUser.folder_details) {
-        if (this.currentUser.folder_details[i].name == 'Scripts'){
-            this.scriptFolderId = this.currentUser.folder_details[i].id;
+    getFolder(folderName) {
+        if (folderName == 'Scripts') {
+            this.router.navigate(['/folder', this.currentUser.folder_details.Scripts]);
+            this.ngOnInit();
+            this.loading = false;
+        } else {
+            this.router.navigate(['/folder', this.currentUser.folder_details.Archive]);
+            this.ngOnInit();
+            this.loading = false;
         }
     }
-    await this.userService.get_folders(this.scriptFolderId, this.currentUser.access_token)
-        .pipe(first())
-        .subscribe(
-            data => {
-                this.folderdata = data;
-                console.log(this.folderdata)
-                this.router.navigate(['/folder']);
-            },
-            error => {
-                this.alertService.error(error);
-                this.loading = false;
-            });
-  }
 
-  async get_archive_folder() {
-      for (var i in this.currentUser.folder_details) {
-          if (this.currentUser.folder_details[i].name == 'Archive'){
-              this.scriptFolderId = this.currentUser.folder_details[i].id;
-          }
-      }
-      await this.userService.get_folders(this.scriptFolderId, this.currentUser.access_token)
-          .pipe(first())
-          .subscribe(
-              data => {
-                  this.folderdata = data;
-                  console.log(this.folderdata)
-                  this.router.navigate(['/folder']);
-              },
-              error => {
-                  this.alertService.error(error);
-                  this.loading = false;
-              });
-  }
+    goHome() {
+        this.router.navigate(['/folder', this.currentUser.folder_details.Scripts]);
+    }
 
 }

@@ -17,7 +17,7 @@ export class AuthenticationService {
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    headers = new HttpHeaders({
+    basicHeaders = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization':  "Basic NzExNjFlZjQ4ZmYyNjA5NWJhMTAzNDFhNjY0MDkyOGY6MTAxNjJjOTU4NTM5Njc1MzI5M2EzMzczYjJjYmM5ZjU="});
 
@@ -25,16 +25,20 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(username: string, password: string) {
-        const body = {scope: '*', grant_type: 'password', email: username, password: password};
-        return this.http.post<any>(`${environment.apiUrl}/authentication/token`, body, {headers:this.headers});
+    register(user: User) {
+        return this.http.post(`${environment.apiUrl}/authentication/register`, user, {headers: this.basicHeaders});
     }
 
-    get_user(data: any) {
-        let localheaders = new HttpHeaders({
+    login(username: string, password: string) {
+        const body = {scope: '*', grant_type: 'password', email: username, password: password};
+        return this.http.post<any>(`${environment.apiUrl}/authentication/token`, body, {headers:this.basicHeaders});
+    }
+
+    getUser(data: any) {
+        let localHeaders = new HttpHeaders({
             'Authorization':  "Bearer " + data.access_token
         });
-        return this.http.get<any>(`${environment.apiUrl}/user`, {headers:localheaders})
+        return this.http.get<any>(`${environment.apiUrl}/user`, {headers:localHeaders})
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && data.access_token) {
