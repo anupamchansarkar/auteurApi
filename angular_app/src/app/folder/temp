@@ -1,9 +1,9 @@
-<div *ngIf="loading" class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--fixed kt-page--loading">
+    <div *ngIf="loading" class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--fixed kt-page--loading">
 
 		<!-- begin:: Header Mobile -->
 		<div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
 			<div class="kt-header-mobile__logo">
-				<a href="">
+				<a href=".">
 					<img width="200"  src="./assets/media/logos/ScriptMaestro_SBug.png"  />
 				</a>
 			</div>
@@ -64,6 +64,21 @@
                         <!-- begin:: Header Menu -->
                         <button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
                         <div class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
+                                <div id="kt_header_menu" class="kt-header-menu kt-header-menu-mobile  kt-header-menu--layout- ">
+                                    <ul class="kt-menu__nav ">
+                                        <li class="kt-menu__item  kt-menu__item--submenu kt-menu__item--rel kt-menu__item--active" data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                                            <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
+                                                <span class="kt-menu__link-text">Upload Script</span>
+                                            </a>
+                                            <div class="form-group">
+                                                    <label for="file">Choose File</label>
+                                                    <input type="file"
+                                                           id="file"
+                                                           (change)="handleFileInput($event.target.files)">
+                                                </div>
+                                        </li>
+                                    </ul>
+                                </div>
                         </div>
                         <!-- end:: Header Menu -->
 
@@ -137,98 +152,24 @@
                                 <div class="kt-portlet kt-portlet--height-fluid">
                                     <div class="kt-portlet__head">
                                         <div class="kt-portlet__head-label">
-                                            <h3 class="kt-portlet__head-title">Script Detail</h3>
+                                            <h3 class="kt-portlet__head-title">Scripts</h3>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!--begin::Row-->
-							      <div class="row">
-                      <!--begin::Portlet-->
-                      <div class="col-lg-6 col-xl-4 order-lg-1 order-xl-1">
-  
-                      <!--begin::Portlet-->
-                      <div class="kt-portlet kt-portlet--height-fluid">
-                        <div class="kt-portlet__head  kt-portlet__head--noborder">
-                          <div class="kt-portlet__head-label">
-                            <h3 class="kt-portlet__head-title">Dialog to Scene Description</h3>
-                          </div>
-                        </div>
-                        <div class="kt-portlet__body kt-portlet__body--fluid">
-                          <div class="kt-widget-21">
-                            <div class="kt-widget-21__title">
-                              <div class="kt-widget-21__label">Ratio: {{ratio}}</div>
-                              <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
-                            </div>
-                            <div class="kt-widget-21__data">
-  
-                              <!--Doc: For the chart legend bullet colors can be changed with state helper classes: kt-bg-success, kt-bg-info, kt-bg-danger. Refer: components/custom/colors.html -->
-                              <div class="kt-widget-21__legends">
-                                <div class="kt-widget-21__legend">
-                                  <i class="kt-bg-success"></i>
-                                  <span>Dialogs: <span id="yours">{{scriptScores.dialog_ratio.yours}}</span></span>
+                    <div class="col-xl" *ngFor="let script of folderData.scripts">
+                        <div class="kt-portlet kt-portlet--height-fluid-half kt-widget-14">
+                            <div class="kt-portlet__body">
+                                <div id="kt-widget-slider-14-1" class="kt-slider carousel slide" data-ride="carousel" data-interval="8000">
+                                    <div class="kt-slider__head">
+                                        <a class="kt-slider__label kt-hover kt-widget-10__item-title" (click)="selectDocument(script)"><i class="flaticon2-document"></i> &nbsp; &nbsp; {{script.name}}</a>
+                                    </div>
                                 </div>
-                                <div class="kt-widget-21__legend">
-                                  <i class="kt-bg-warning"></i>
-                                  <span>Scenes: <span id="standard">{{scriptScores.dialog_ratio.standard}}</span></span>
-                                </div>
-                              </div>
-                              <div class="kt-widget-21__chart">
-                                <div class="kt-widget-21__stat">{{ratio}}</div>
-                                <canvas id="kt_widget_technologies_chart_2" style="height: 110px; width: 110px;"></canvas><script src="javascript/dashboard.js"></script>
-                              </div>
                             </div>
-                          </div>
                         </div>
-                      </div>
-                      <!--end::Portlet-->
                     </div>
-                    <!--begin::Portlet-->
-                    <div class="col-lg-6 col-xl-4 order-lg-1 order-xl-1">
-  
-                        <!--begin::Portlet-->
-                        <div class="kt-portlet kt-portlet--height-fluid">
-                          <div class="kt-portlet__head  kt-portlet__head--noborder">
-                            <div class="kt-portlet__head-label">
-                              <h3 class="kt-portlet__head-title">Average Scene Length</h3>
-                            </div>
-                          </div>
-                          <div class="kt-portlet__body kt-portlet__body--fluid">
-                            <div class="kt-widget-21">
-                              <div class="kt-widget-21__title">
-                                <div class="kt-widget-21__label">Scene Length: {{scriptScores.avg_scene_length}}</div>
-                                <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!--end::Portlet-->
-                      </div>
-                      <!--begin::Portlet-->
-                      <div class="col-lg-6 col-xl-4 order-lg-1 order-xl-1">
-  
-                          <!--begin::Portlet-->
-                          <div class="kt-portlet kt-portlet--height-fluid">
-                            <div class="kt-portlet__head  kt-portlet__head--noborder">
-                              <div class="kt-portlet__head-label">
-                                <h3 class="kt-portlet__head-title">Page Count</h3>
-                              </div>
-                            </div>
-                            <div class="kt-portlet__body kt-portlet__body--fluid">
-                              <div class="kt-widget-21">
-                                <div class="kt-widget-21__title">
-                                  <div class="kt-widget-21__label">Total Pages: {{scriptScores.pages}}</div>
-                                  <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <!--end::Portlet-->
-                        </div>
-                  </div>
                 </div>
                 <!-- end:: Wrapper -->
             </div>

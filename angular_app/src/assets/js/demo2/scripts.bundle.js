@@ -9493,7 +9493,7 @@ KTUtil.ready(function() {
         KTQuickSearchMobile().init(KTUtil.get('kt_quick_search_offcanvas'));
     }
 });
-"use strict";
+
 var KTLayout = function() {
     var body;
 
@@ -9704,7 +9704,8 @@ var KTLayout = function() {
             // the body tag in order to initialize the minimized left aside mode during page loading.
         });
 
-        asideToggler.on('beforeToggle', function(toggle) {   
+        asideToggler.on('beforeToggle', function(toggle) { 
+            console.log('I came here 1');
             var body = KTUtil.get('body'); 
             if (KTUtil.hasClass(body, 'kt-aside--minimize') === false && KTUtil.hasClass(body, 'kt-aside--minimize-hover')) {
                 KTUtil.removeClass(body, 'kt-aside--minimize-hover');
@@ -9784,13 +9785,6 @@ var KTLayout = function() {
             this.initHeader();
             this.initAside();
             this.initPageStickyPortlet();
-
-            // Non functional links notice(can be removed in production)
-            $('#kt_aside_menu, #kt_header_menu').on('click', '.kt-menu__link[href="#"]:not(.kt-menu__toggle)', function(e) {
-                swal("", "You have clicked on a non-functional dummy link!");
-
-                e.preventDefault();
-            });
         },
 
         initHeader: function() {
@@ -9805,6 +9799,7 @@ var KTLayout = function() {
             initAsideToggler();
             
             this.onAsideToggle(function(e) {
+                console.log('I came here 2');
                 // Update sticky portlet
                 if (pageStickyPortlet) {
                     pageStickyPortlet.updateSticky();

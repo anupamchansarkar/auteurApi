@@ -12,6 +12,7 @@ export class FolderComponent implements OnInit {
     users: any[] = [];
     folderData: any;
     folderId: any;
+    fileToUpload: File = null;
 
     constructor(
         private userService: UserService,
@@ -36,6 +37,10 @@ export class FolderComponent implements OnInit {
                     this.alertService.error(error);
                     this.loading = false;
                 });
+    }
+
+    handleFileInput(files: FileList) {
+        this.fileToUpload = files.item(0);
     }
 
     getFolder(folderName) {
@@ -65,5 +70,9 @@ export class FolderComponent implements OnInit {
         localStorage.removeItem('currentUser');
         this.currentUser = null;
         this.router.navigate([""]);
+    }
+
+    myfunc() {
+        var asideToggler = KTToggle('kt_aside_toggler', {target: 'div', targetState: 'kt-aside--minimize', togglerState: 'kt-aside__brand-aside-toggler--active'}); 
     }
 }

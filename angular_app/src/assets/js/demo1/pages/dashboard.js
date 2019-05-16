@@ -220,7 +220,9 @@ var KTDashboard = function() {
     }
 
     var widgetTechnologiesChart2 = function() {
-        
+        if ($('#kt_widget_technologies_chart_2').length == 0) {
+            return;
+        }
 
         var randomScalingFactor = function() {
             return Math.round(Math.random() * 100);
@@ -231,7 +233,7 @@ var KTDashboard = function() {
             data: {
                 datasets: [{
                     data: [
-                        40, 0, 60
+                        35, 30, 35
                     ],
                     backgroundColor: [                                                                 
                         KTApp.getStateColor('warning'),
@@ -240,9 +242,9 @@ var KTDashboard = function() {
                     ]
                 }],
                 labels: [       
-                    'Standard',     
-                    'Angular',              
-                    'Yours'    
+                    'CSS',     
+                    'Angular',               
+                    'HTML'    
                 ]
             },
             options: {
@@ -955,7 +957,7 @@ var KTDashboard = function() {
             recentOrdersInit();
 
             widgetTechnologiesChart();
-            widgetTechnologiesChart2()
+            widgetTechnologiesChart2();
             widgetTotalOrdersChart();
             widgetTotalOrdersChart2();
 
