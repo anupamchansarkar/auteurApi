@@ -71,8 +71,4 @@ export class FolderComponent implements OnInit {
         this.currentUser = null;
         this.router.navigate([""]);
     }
-
-    myfunc() {
-        var asideToggler = KTToggle('kt_aside_toggler', {target: 'div', targetState: 'kt-aside--minimize', togglerState: 'kt-aside__brand-aside-toggler--active'}); 
-    }
 }
