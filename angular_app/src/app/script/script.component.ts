@@ -42,7 +42,6 @@ export class ScriptComponent implements OnInit {
             .subscribe(
                 data => {
                     this.scriptScores = data;
-                    this.ratio = "150%";
                     this.loading = true;
                 },
                 error => {

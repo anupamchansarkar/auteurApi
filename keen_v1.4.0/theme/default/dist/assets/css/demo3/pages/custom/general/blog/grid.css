@@ -34,10 +34,10 @@
   margin-bottom: 1.25rem; }
 
 .kt-blog-grid .kt-blog-grid__body .kt-blog-grid__link {
-  color: #1cac81;
+  color: #3699ff;
   font-weight: 500;
   font-size: 1.1rem;
   -webkit-transition: all 0.3s;
   transition: all 0.3s; }
   .kt-blog-grid .kt-blog-grid__body .kt-blog-grid__link:hover, .kt-blog-grid .kt-blog-grid__body .kt-blog-grid__link:focus {
-    color: #0e543f; }
+    color: #0066cf; }

@@ -3,7 +3,7 @@
 		<!-- begin:: Header Mobile -->
 		<div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
 			<div class="kt-header-mobile__logo">
-				<a href="">
+				<a href=".">
 					<img width="200"  src="./assets/media/logos/ScriptMaestro_SBug.png"  />
 				</a>
 			</div>
@@ -22,7 +22,6 @@
             <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
 
                 <!-- begin:: Aside -->
-                <button class="kt-aside-close " id="kt_aside_close_btn"><i class="la la-close"></i></button>
                 <div class="kt-aside  kt-aside--fixed  kt-grid__item kt-grid kt-grid--desktop kt-grid--hor-desktop" id="kt_aside">
 
                     <!-- begin::Aside Brand -->
@@ -60,10 +59,11 @@
 
                     <!-- begin:: Header -->
                     <div id="kt_header" class="kt-header kt-grid__item  kt-header--fixed ">
-
+                        
                         <!-- begin:: Header Menu -->
-                        <button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
                         <div class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
+                            <div id="kt_header_menu" class="kt-header-menu kt-header-menu-mobile  kt-header-menu--layout- ">
+                            </div>
                         </div>
                         <!-- end:: Header Menu -->
 
@@ -91,26 +91,21 @@
 
                             <!--begin: User Bar -->
                             <div class="kt-header__topbar-item kt-header__topbar-item--user">
-                                <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px, 0px">
+                                <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px, 0px" >
                                     <div class="kt-header__topbar-user">
-                                        <span class="kt-header__topbar-welcome kt-hidden-mobile">Hi,</span>
-                                        <span class="kt-header__topbar-username kt-hidden-mobile">{{currentUser.first_name}}</span>
-                                        <img alt="Pic" src="./assets/media/users/300_25.png" />
-
-                                        <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
-                                        <span class="kt-badge kt-badge--username kt-badge--lg kt-badge--brand kt-hidden kt-badge--bold">S</span>
+                                        <img alt="Pic" src="./assets/media/users/default.jpg" />
                                     </div>
                                 </div>
                                 <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-sm">
                                     <div class="kt-user-card kt-margin-b-40 kt-margin-b-30-tablet-and-mobile" style="background-image: url(./assets/media/misc/head_bg_sm.jpg)">
                                         <div class="kt-user-card__wrapper">
                                             <div class="kt-user-card__pic">
-                                                <img alt="Pic" src="./assets/media/users/300_25.png" />
+                                                <img alt="Pic" src="./assets/media/users/default.jpg" />
                                             </div>
                                             <div class="kt-user-card__details">
                                                 <div class="kt-user-card__name">{{currentUser.first_name}} {{currentUser.last_name}}</div>
-                                                </div>
                                             </div>
+                                        </div>
                                     </div>
                                     <ul class="kt-nav kt-margin-b-10">
                                         <li class="kt-nav__item">
@@ -154,32 +149,14 @@
                       <div class="kt-portlet kt-portlet--height-fluid">
                         <div class="kt-portlet__head  kt-portlet__head--noborder">
                           <div class="kt-portlet__head-label">
-                            <h3 class="kt-portlet__head-title">Dialog to Scene Description</h3>
+                            <h3 class="kt-portlet__head-title">Dialog to Scene Description Ratio</h3>
                           </div>
                         </div>
                         <div class="kt-portlet__body kt-portlet__body--fluid">
                           <div class="kt-widget-21">
                             <div class="kt-widget-21__title">
-                              <div class="kt-widget-21__label">Ratio: {{ratio}}</div>
+                              <div class="kt-widget-21__label">Ratio: {{scriptScores.dialog_scene_ratio}}</div>
                               <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
-                            </div>
-                            <div class="kt-widget-21__data">
-  
-                              <!--Doc: For the chart legend bullet colors can be changed with state helper classes: kt-bg-success, kt-bg-info, kt-bg-danger. Refer: components/custom/colors.html -->
-                              <div class="kt-widget-21__legends">
-                                <div class="kt-widget-21__legend">
-                                  <i class="kt-bg-success"></i>
-                                  <span>Dialogs: <span id="yours">{{scriptScores.dialog_ratio.yours}}</span></span>
-                                </div>
-                                <div class="kt-widget-21__legend">
-                                  <i class="kt-bg-warning"></i>
-                                  <span>Scenes: <span id="standard">{{scriptScores.dialog_ratio.standard}}</span></span>
-                                </div>
-                              </div>
-                              <div class="kt-widget-21__chart">
-                                <div class="kt-widget-21__stat">{{ratio}}</div>
-                                <canvas id="kt_widget_technologies_chart_2" style="height: 110px; width: 110px;"></canvas><script src="javascript/dashboard.js"></script>
-                              </div>
                             </div>
                           </div>
                         </div>
@@ -193,13 +170,13 @@
                         <div class="kt-portlet kt-portlet--height-fluid">
                           <div class="kt-portlet__head  kt-portlet__head--noborder">
                             <div class="kt-portlet__head-label">
-                              <h3 class="kt-portlet__head-title">Average Scene Length</h3>
+                              <h3 class="kt-portlet__head-title">Average Scene Description Length</h3>
                             </div>
                           </div>
                           <div class="kt-portlet__body kt-portlet__body--fluid">
                             <div class="kt-widget-21">
                               <div class="kt-widget-21__title">
-                                <div class="kt-widget-21__label">Scene Length: {{scriptScores.avg_scene_length}}</div>
+                                <div class="kt-widget-21__label">Lines: {{scriptScores.avg_scene_length}}</div>
                                 <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
                               </div>
                             </div>
@@ -207,6 +184,46 @@
                         </div>
                         <!--end::Portlet-->
                       </div>
+                      <!--begin::Portlet-->
+                    <div class="col-lg-6 col-xl-4 order-lg-1 order-xl-1">
+  
+                        <!--begin::Portlet-->
+                        <div class="kt-portlet kt-portlet--height-fluid">
+                          <div class="kt-portlet__head  kt-portlet__head--noborder">
+                            <div class="kt-portlet__head-label">
+                              <h3 class="kt-portlet__head-title">Average Dialog Length</h3>
+                            </div>
+                          </div>
+                          <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget-21">
+                              <div class="kt-widget-21__title">
+                                <div class="kt-widget-21__label">Lines: {{scriptScores.avg_dialog_length}}</div>
+                                <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--end::Portlet-->
+                      </div>
+
+                      <!--begin::Portlet-->
+                      <div class="kt-portlet kt-portlet--height-fluid">
+                          <div class="kt-portlet__head  kt-portlet__head--noborder">
+                            <div class="kt-portlet__head-label">
+                              <h3 class="kt-portlet__head-title">Total scenes</h3>
+                            </div>
+                          </div>
+                          <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget-21">
+                              <div class="kt-widget-21__title">
+                                <div class="kt-widget-21__label">Scene count: {{scriptScores.total_scenes}}</div>
+                                <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--end::Portlet-->
+
                       <!--begin::Portlet-->
                       <div class="col-lg-6 col-xl-4 order-lg-1 order-xl-1">
   
@@ -220,7 +237,7 @@
                             <div class="kt-portlet__body kt-portlet__body--fluid">
                               <div class="kt-widget-21">
                                 <div class="kt-widget-21__title">
-                                  <div class="kt-widget-21__label">Total Pages: {{scriptScores.pages}}</div>
+                                  <div class="kt-widget-21__label">Page count: {{scriptScores.pages}}</div>
                                   <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
                                 </div>
                               </div>

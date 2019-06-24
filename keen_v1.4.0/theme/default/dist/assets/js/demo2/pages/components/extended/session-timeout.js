@@ -5,7 +5,7 @@ var KTSessionTimeoutDemo = function () {
         $.sessionTimeout({
             title: 'Session Timeout Notification',
             message: 'Your session is about to expire.',
-            keepAliveUrl: 'https://keenthemes.com/keen/themes/themes/keen/dist/preview/inc/api/session-timeout/keepalive.php',
+            keepAliveUrl: 'inc/api/session-timeout/keepalive.php',
             redirUrl: '?page=custom/user/login-v1&demo=default',
             logoutUrl: '?page=custom/user/login-v1&demo=default',
             warnAfter: 3000, //warn after 5 seconds

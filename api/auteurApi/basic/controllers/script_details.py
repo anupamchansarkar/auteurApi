@@ -3,6 +3,8 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from .base import Base
 
+import json
+
 from basic.models.scripts import Scripts
 
 class Script_Details(Base):
@@ -13,7 +15,19 @@ class Script_Details(Base):
         self.log.debug(in_url)
         script_unique_id = in_url.split("/")[0]
         self.log.debug(script_unique_id)
+
+        # open processed file
+        saved_file_name = '%s/%s/%s.data' % (settings.SCRIPTS_FOLDER, 'extracted', script_unique_id)
+        f = open(saved_file_name)
+        line = f.readline()
+        f.close()
+        text = json.loads(line)
+        self.log.debug(text)
         script_obj = Scripts()
         data = script_obj.get_by_unique_id(script_unique_id)
-        r = {"dialog_ratio":{"standard":40, "yours":60}, "avg_scene_length":"100 lines", "pages":data['page_count']}
+        r = {"dialog_scene_ratio": round(text['dialog_scene_ratio'], 2), 
+             "total_scenes": text['total_scenes'], 
+             "pages": round(data['page_count'],2),
+             "avg_scene_length": round(text['avg_scene_desc_length'],2),
+             "avg_dialog_length": round(text['avg_dialog_length'],2)}
         return self.response(r)

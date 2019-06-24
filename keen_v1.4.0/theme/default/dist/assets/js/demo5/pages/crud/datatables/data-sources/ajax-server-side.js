@@ -10,7 +10,7 @@ var KTDatatablesDataSourceAjaxServer = function() {
 			searchDelay: 500,
 			processing: true,
 			serverSide: true,
-			ajax: 'https://keenthemes.com/keen/themes/themes/keen/dist/preview/inc/api/datatables/demos/server.php',
+			ajax: 'inc/api/datatables/demos/server.php',
 			columns: [
 				{data: 'RecordID'},
 				{data: 'OrderID'},

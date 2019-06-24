@@ -9393,7 +9393,7 @@ var KTQuickSearch = function() {
         
         setTimeout(function() {
             $.ajax({
-                url: 'https://keenthemes.com/keen/themes/themes/keen/dist/preview/inc/api/quick_search.php',
+                url: 'inc/api/quick_search.php',
                 data: {
                     query: query
                 },

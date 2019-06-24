@@ -85,25 +85,37 @@ class ScriptParser:
                     self.save_unprocessed_lines(line, words, spaces)
                 prev_spaces = spaces
 
-        ''' print('----------CAMERA DESC-------------------------')
-        print self.camera_desc
-        print('-----------EDIT DESC------------------------')
-        print self.edit_desc
-        print('-----------LOCATION DESC------------------------')
-        print self.location_desc
-        print('-----------SCENE DESC------------------------')
-        print self.scene_desc
-        print('-----------DIALOGS------------------------')
-        print self.dialog
-        print('-----------CHARACTERS------------------------')
-        print self.characters
-        print('-----------UNPROCESSED------------------------')
-        print self.unprocessed '''
-
+        self.run_counts()
         self.write_output()
+
+    def run_counts(self):
+        # Count scenes lengths
+        self.total_scenes = len(self.scene_desc)
+
+        # avg scene length
+        scene_line_count = 0
+        for scene in self.scene_desc:
+            scene_line_count += scene['sce_len']
+        self.avg_scene_desc_length = float(scene_line_count)/self.total_scenes
+
+        # count dialogs
+        self.total_dialogs = len(self.dialog)
+
+        # avg dialog length
+        dialog_line_count = 0
+        for dialog in self.dialog:
+            dialog_line_count += dialog['dia_len']
+
+        self.avg_dialog_length = float(dialog_line_count)/self.total_dialogs
+        self.dialog_scene_ratio = float(dialog_line_count)/scene_line_count
+        self.count_location_descrption = len(self.location_desc) 
 
     def write_output(self):
         f = open(self.outputfile, 'w')
+        data = {"total_scenes":self.total_scenes, "avg_scene_desc_length":self.avg_scene_desc_length, "total_dialogs":self.total_dialogs, 
+                "avg_dialog_length":self.avg_dialog_length, "dialog_scene_ratio":self.dialog_scene_ratio, "total_scenes":self.count_location_descrption}
+        f.write(json.dumps(data))
+        f.write('\n\n\n\n\n\n')
         f.write('----------CAMERA DESC-------------------------\n')
         f.write(json.dumps(self.camera_desc))
         f.write('\n\n\n\n\n\n')

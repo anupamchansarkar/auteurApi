@@ -11,7 +11,7 @@ var KTDatatableJsonRemoteDemo = function () {
 			// datasource definition
 			data: {
 				type: 'remote',
-				source: 'https://keenthemes.com/keen/themes/themes/keen/dist/preview/inc/api/datatables/datasource/employee.json',
+				source: 'inc/api/datatables/datasource/employee.json',
 				pageSize: 10,
 			},
 

@@ -161,7 +161,7 @@ var KTDatatableModal = function() {
 				type: 'remote',
 				source: {
 					read: {
-						url: 'https://keenthemes.com/keen/themes/themes/keen/dist/preview/inc/api/datatables/demos/default.php',
+						url: 'inc/api/datatables/demos/default.php',
 					},
 				},
 				pageSize: 10, // display 20 records per page
@@ -359,7 +359,7 @@ var KTDatatableModal = function() {
 				type: 'remote',
 				source: {
 					read: {
-						url: 'https://keenthemes.com/keen/themes/themes/keen/dist/preview/inc/api/datatables/demos/customers.php',
+						url: 'inc/api/datatables/demos/customers.php',
 					},
 				},
 				pageSize: 10, // display 20 records per page
@@ -482,7 +482,7 @@ var KTDatatableModal = function() {
 				type: 'remote',
 				source: {
 					read: {
-						url: 'https://keenthemes.com/keen/themes/themes/keen/dist/preview/inc/api/datatables/demos/orders.php',
+						url: 'inc/api/datatables/demos/orders.php',
 						params: {
 							query: {
 								generalSearch: '',

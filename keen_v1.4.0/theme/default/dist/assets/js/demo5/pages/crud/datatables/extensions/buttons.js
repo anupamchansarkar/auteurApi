@@ -73,7 +73,7 @@ var KTDatatablesExtensionButtons = function() {
 			processing: true,
 			serverSide: true,
 			ajax: {
-				url: 'https://keenthemes.com/keen/themes/themes/keen/dist/preview/inc/api/datatables/demos/server.php',
+				url: 'inc/api/datatables/demos/server.php',
 				type: 'POST',
 				data: {
 					// parameters for custom backend script demo

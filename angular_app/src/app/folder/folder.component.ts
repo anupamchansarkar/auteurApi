@@ -41,7 +41,19 @@ export class FolderComponent implements OnInit {
 
     handleFileInput(files: FileList) {
         this.fileToUpload = files.item(0);
+        console.log(this.fileToUpload);
+        this.uploadFileToActivity();
     }
+
+    uploadFileToActivity() {
+        this.userService.postFile(this.fileToUpload, this.currentUser.access_token).subscribe(data => {
+          // do something, if upload success
+          location.reload();
+          }, error => {
+            alert('failed on upload');
+            location.reload();
+          });
+      }
 
     getFolder(folderName) {
         if (folderName == 'Scripts') {

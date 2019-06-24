@@ -119,7 +119,7 @@
           padding-left: 0; }
         .kt-invoice-v1 .kt-invoice-v1__body .kt-invoice-v1__summary .kt-invoice-v1__summary-body > tr > td:last-child {
           padding-right: 0;
-          color: #3699ff; }
+          color: #1cac81; }
   .kt-invoice-v1 .kt-invoice-v1__body .kt-invoice-v1__payment {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -167,7 +167,7 @@
       text-align: right; }
       .kt-invoice-v1 .kt-invoice-v1__body .kt-invoice-v1__payment .kt-invoice-v1__payment-right .kt-invoice-v1__payment-total {
         font-size: 2.5rem;
-        color: #3699ff;
+        color: #1cac81;
         font-weight: 600; }
       .kt-invoice-v1 .kt-invoice-v1__body .kt-invoice-v1__payment .kt-invoice-v1__payment-right .kt-invoice-v1__payment-tax {
         color: #babac6;
