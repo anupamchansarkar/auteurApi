@@ -38,6 +38,8 @@ class ScriptParser:
         self.longest_location = []
         self.longest_monolog = {}
         self.overly_used_words = []
+        self.location_markers = []
+        self.location_str = ''
 
     def process_line(self, line):
         if line.strip() == '':
@@ -92,6 +94,9 @@ class ScriptParser:
                     self.save_camera_desc(new_line, words, spaces)
                 elif words and words[0] in LOCATIONWORDS:
                     self.location_count += 1
+                    if self.location_str != '':
+                        self.location_markers.append(self.location_str)
+                    self.location_str = ''
                     self.save_location_desc(new_line, words, spaces)
                 elif words and not new_line.isupper():
                     self.scene_count += 1
@@ -201,6 +206,8 @@ class ScriptParser:
                 "longest_location": self.longest_location, "longest_monolog": self.longest_monolog,
                 "overly_used_words": self.overly_used_words}
         f.write(json.dumps(data))
+        f.write('\n')
+        f.write(json.dumps(self.location_markers))
         f.write('\n\n\n\n\n\n')
         f.write('----------CAMERA DESC-------------------------\n')
         f.write(json.dumps(self.camera_desc))
@@ -238,6 +245,7 @@ class ScriptParser:
         csv_line = line.strip('\n')
         csv_line = csv_line.strip('\r')
         csv_line = csv_line.replace(',',':')
+        self.location_str = "%s \n %s" % (self.location_str, line)
         self.csv_lines.append("%s, %s, %s\n" %(self.line_count, csv_line, "edit_description"))
         self.edit_desc.append({"text":line, "ln":self.line_count})
 
@@ -245,6 +253,7 @@ class ScriptParser:
         csv_line = line.strip('\n')
         csv_line = csv_line.strip('\r')
         csv_line = csv_line.replace(',',':')
+        self.location_str = "%s \n %s" % (self.location_str, line)
         self.csv_lines.append("%s, %s, %s\n" %(self.line_count, csv_line, "camera_description"))
         self.camera_desc.append({"text":line, "ln":self.line_count})
 
@@ -252,6 +261,7 @@ class ScriptParser:
         csv_line = line.strip('\n')
         csv_line = csv_line.strip('\r')
         csv_line = csv_line.replace(',',':')
+        self.location_str = "%s \n %s" % (self.location_str, line)
         self.csv_lines.append("%s, %s, %s, %s\n" %(self.line_count, csv_line, "location_description", self.location_count))
         self.location_desc.append({"text":line, "ln":self.line_count, "location_count":self.location_count})
     
@@ -259,6 +269,7 @@ class ScriptParser:
         csv_line = line.strip('\n')
         csv_line = csv_line.strip('\r')
         csv_line = csv_line.replace(',',':')
+        self.location_str = "%s \n %s" % (self.location_str, line)
         self.csv_lines.append("%s, %s, %s\n" %(self.line_count, csv_line, "unprocessed"))
         self.unprocessed.append({"text":line, "ln":self.line_count})
 
@@ -281,6 +292,7 @@ class ScriptParser:
         csv_line = cur_scene.strip('\n')
         csv_line = csv_line.strip('\r')
         csv_line = csv_line.replace(',',':')
+        self.location_str = "%s \n %s" % (self.location_str, cur_scene)
         self.csv_lines.append("%s, %s, %s, %s, %s\n" %(scene_start, csv_line, "scene_description", scene_desc_length-1, self.scene_count))
         self.scene_desc.append({"text":cur_scene, "ln":scene_start, "sce_desc_len":scene_desc_length-1, "scene_count":self.scene_count})
         self.fp.seek(pos)
@@ -304,6 +316,7 @@ class ScriptParser:
         csv_line = cur_dialog.strip('\n')
         csv_line = csv_line.strip('\r')
         csv_line = csv_line.replace(',',':')
+        self.location_str = "%s \n %s" % (self.location_str, cur_dialog)
         self.csv_lines.append("%s, %s, %s, %s, %s, %s, %s\n" %(dialog_start, csv_line, "dialog", dialog_length-1, char, self.scene_count, self.location_count))
         self.dialog.append({"text":cur_dialog, "ln":dialog_start, "dia_len":dialog_length-1, "char":char, "scene_num":self.scene_count, "loc_count":self.location_count})
 
