@@ -7,8 +7,10 @@ from .base import Base
 import mimetypes, json, os, binascii, re, subprocess
 from PyPDF2 import PdfFileReader
 
-from basic.models.user.folders import User_folders
+from basic.models.genres import Genres
 from basic.models.scripts import Scripts
+from basic.models.script.details import Script_details
+from basic.models.user.folders import User_folders
 from basic.models.user.script.folders import User_script_folders
 
 class Script(Base):
@@ -20,7 +22,7 @@ class Script(Base):
     def post(self):
         file_path, file_name = self.process_document_upload()
         processed_file_name, text_file_name = self.check_file_contents(file_path, file_name)
-        id = self.save_file(file_path, file_name, text_file_name, processed_file_name)
+        id = self.save_file(file_path, file_name, text_file_name, processed_file_name, self.payload.get('genre'))
         r = {"id":id}
         return self.response(r)
 
@@ -83,7 +85,7 @@ class Script(Base):
         except:
             return 0
 
-    def save_file(self, file_path, file_name, text_file_name, processed_file_name):
+    def save_file(self, file_path, file_name, text_file_name, processed_file_name, genre):
 
         # save details to scripts table
         page_count = self.get_page_count(file_path)
@@ -97,6 +99,12 @@ class Script(Base):
 
         # script id
         script_id = script_obj.get_id_by_unique_id(script_unique_id)
+
+        # save script genre
+        script_details_obj = Script_details()
+        genre_obj = Genres()
+        script_details_obj.set_params(script_id=script_id, genre_id=genre_obj.get_id_by_name(self.payload.get('genre')))
+        script_details_obj.save()
 
         # save details to user_script_folders table
         user_folder_obj = User_folders()

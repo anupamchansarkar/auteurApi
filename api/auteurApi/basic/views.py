@@ -8,6 +8,7 @@ from basic.controllers.oauth import Oauth
 from basic.controllers.folder import Folder
 from basic.controllers.script import Script
 from basic.controllers.script_details import Script_Details
+from basic.controllers.genre import Genre
 import requests
 import logging
 log = logging.getLogger(__name__)
@@ -54,3 +55,9 @@ def script(request, script_id=None):
 def script_details(request, script_id):
     script_details_obj = Script_Details(request)
     return script_details_obj.get(script_id)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def genre(request):
+    genre_obj = Genre(request)
+    return genre_obj.get()

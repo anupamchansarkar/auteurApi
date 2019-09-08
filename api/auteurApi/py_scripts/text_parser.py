@@ -3,14 +3,15 @@ import json
 
 KEYWORDS = ['AERIAL', 'ANGLE', 'BACK','CLOSE', 'CLOSER', 'CONTINUOUS', 'CONTRAZOOM', 'CRAWL', 'CROSSFADE', 'CUT', 'DISSOLVE', 'ESTABLISHING', 'EXT.', 'EXTREMELY', 'FADE',
             'FAVOR', 'FLASH', 'FLASHBACK', 'FREEZE', 'FRAME', 'IN', 'INSERT', 'INT.', 'INTERCUT', 'INTO', 'VIEW', 'JUMP', 'LONG', 'LAP', 'MATCH', 'MOS', 'ON', 'O.C.', 'O.S.',
-            'POV', 'PULL', 'PUSH', 'REVERSE', 'SMASH', 'SPLIT', 'SCREEN', 'SHOT', 'STOCK', 'SUPER', 'TO', 'TIGHT', 'TIME', 'V.O.', 'WIPE', 'ZOOM']
+            'POV', 'PULL', 'PUSH', 'REVERSE', 'SMASH', 'SPLIT', 'SCREEN', 'SHOT', 'STOCK', 'SUPER', 'TO', 'TIGHT', 'TIME', 'V.O.', 'WIPE', 'ZOOM', 'EXT/INT.', 'INT/EXT.',
+            'EXT/INT', 'INT/EXT']
 
 EDITWORDS = ['FADE', 'CRAWL', 'FLASHBACK', 'DISSOLVE', 'QUICK', 'JUMP', 'CUT', 'ESTABLISHING', 'CROSSFADE', 'INSERT', 'INTO', 'LAP', 'MATCH', 'INTERCUT', 'MOS', 'SMASH', 'SPLIT', 
              'STOCK', 'SUPER', 'TIGHT', 'TIME', 'V.O.', 'WIPE', 'A']
 
 CAMERAWORDS = ['AERIAL', 'ANGLE', 'CLOSE', 'CLOSEUP', 'CLOSER', 'EXTREMELY', 'LONG', 'SHOT', 'FAVOR', 'FLASH', 'FREEZE', 'FRAME', 'O.C.', 'O.S.', 'POV', 'PULL', 'FOCUS', 'PUSH', 'REVERSE', 'ZOOM', 'ON']
 
-LOCATIONWORDS = ['INT.', 'EXT.', 'DAY', 'NIGHT']
+LOCATIONWORDS = ['INT.', 'EXT.', 'DAY', 'NIGHT', 'EXT/INT', 'INT/EXT', 'EXT/INT.', 'INT/EXT.']
 
 class ScriptParser:
 
@@ -22,12 +23,21 @@ class ScriptParser:
         self.edit_desc = []
         self.camera_desc = []
         self.location_desc = []
+        self.location_count = 0
         self.scene_desc = []
+        self.scenes = []
+        self.scene_count = 0
+        self.scenes_by_char = []
         self.dialog = []
         self.characters = []
+        self.lines_by_char = []
         self.unprocessed = []
         self.csv_lines = []
         self.line_count = 0
+        self.longest_scene = []
+        self.longest_location = []
+        self.longest_monolog = {}
+        self.overly_used_words = []
 
     def process_line(self, line):
         if line.strip() == '':
@@ -38,8 +48,13 @@ class ScriptParser:
         words[0] = words[0].rstrip(':')
         if words[0].isdigit():
             words = words[1:]
+        new_words = []
+        for w in words:
+            if w != '':
+                new_words.append(w)
         self.line_count += 1
-        return line, words, spaces
+        new_line = ' '.join(new_words)
+        return new_line, new_words, spaces
 
     def find_start_line(self):
         start = False
@@ -68,21 +83,23 @@ class ScriptParser:
                 line = self.fp.readline()
                 if len(line) == 0:
                     break
-                line, words, spaces = self.process_line(line)
+                new_line, words, spaces = self.process_line(line)
             
                 # check the 1st word and see where it fits
                 if words and words[0] in EDITWORDS:
-                    self.save_edit_desc(line, words, spaces)
+                    self.save_edit_desc(new_line, words, spaces)
                 elif words and words[0] in CAMERAWORDS:
-                    self.save_camera_desc(line, words, spaces)
+                    self.save_camera_desc(new_line, words, spaces)
                 elif words and words[0] in LOCATIONWORDS:
-                    self.save_location_desc(line, words, spaces)
-                elif words and not line.isupper():
-                    self.save_scene_desc(line, words, spaces)
-                elif words and line.isupper():
-                    self.save_dialogs(line, words, spaces)
+                    self.location_count += 1
+                    self.save_location_desc(new_line, words, spaces)
+                elif words and not new_line.isupper():
+                    self.scene_count += 1
+                    self.save_scene_desc(new_line, words, spaces)
+                elif words and new_line.isupper():
+                    self.save_dialogs(new_line, words, spaces)
                 elif words:
-                    self.save_unprocessed_lines(line, words, spaces)
+                    self.save_unprocessed_lines(new_line, words, spaces)
                 prev_spaces = spaces
 
         self.run_counts()
@@ -95,7 +112,7 @@ class ScriptParser:
         # avg scene length
         scene_line_count = 0
         for scene in self.scene_desc:
-            scene_line_count += scene['sce_len']
+            scene_line_count += scene['sce_desc_len']
         self.avg_scene_desc_length = float(scene_line_count)/self.total_scenes
 
         # count dialogs
@@ -110,10 +127,79 @@ class ScriptParser:
         self.dialog_scene_ratio = float(dialog_line_count)/scene_line_count
         self.count_location_descrption = len(self.location_desc) 
 
+        # lines by char, scenes by char, longest monolog, overly used words 
+        lines_by_char_dict = {}
+        scenes_by_char_dict = {}
+        overly_used_words_dict = {}
+        for dialog in self.dialog:
+            # lines by char
+            if dialog['char'] not in lines_by_char_dict.keys():
+                lines_by_char_dict[dialog['char']] = dialog['dia_len']
+            else:
+                lines_by_char_dict[dialog['char']] = lines_by_char_dict[dialog['char']] + dialog['dia_len']
+            # scenes by char
+            if dialog['char'] not in scenes_by_char_dict.keys():
+                scenes_by_char_dict[dialog['char']] = [dialog['scene_num']]
+            else:
+                if dialog['scene_num'] not in scenes_by_char_dict[dialog['char']]:
+                    scenes_by_char_dict[dialog['char']].append(dialog['scene_num'])
+            # longest dialog
+            if not bool(self.longest_monolog):
+                self.longest_monolog = dialog
+            elif dialog['dia_len'] > self.longest_monolog['dia_len']:
+                self.longest_monolog = dialog
+            # overly used words
+            '''words = dialog['text'].split(' ')
+            for w in words:
+                w = w.lower()
+                if w in overly_used_words_dict.keys():
+                    overly_used_words_dict[w] = overly_used_words_dict[w] + 1
+                else:
+                    overly_used_words_dict[w] = 1'''
+
+        for char in scenes_by_char_dict.keys():
+            self.scenes_by_char.append([char, len(scenes_by_char_dict[char])])
+        self.scenes_by_char.sort(key = lambda x: x[1], reverse=True)
+
+        for k in lines_by_char_dict.keys():
+            self.lines_by_char.append([k, lines_by_char_dict[k]])
+        self.lines_by_char.sort(key = lambda x: x[1], reverse=True)
+
+        '''for k in overly_used_words_dict.keys():
+            self.overly_used_words.append([k, overly_used_words_dict[k]])
+        self.overly_used_words.sort(key = lambda x: x[1], reverse=True)'''
+
+        # longest running scenes
+        longest_scene_length = 0
+        scene_number = 0
+        prev_scene = self.scene_desc[0]
+        for i in range(1, len(self.scene_desc)):
+            if self.scene_desc[i]['ln'] - prev_scene['ln'] > longest_scene_length:
+                longest_scene_length = self.scene_desc[i]['ln'] - prev_scene['ln']
+                scene_number = prev_scene['scene_count']
+                scene_text = prev_scene['text']
+            prev_scene = self.scene_desc[i]
+        self.longest_scene = [scene_number, longest_scene_length, scene_text]
+
+        # longest running location
+        longest_location_length = 0
+        location_number = ''
+        prev_location = self.location_desc[0]
+        for i in range(1, len(self.location_desc)):
+            if (self.location_desc[i]['ln'] - prev_location['ln']) > longest_location_length:
+                longest_location_length = self.location_desc[i]['ln'] - prev_location['ln']
+                location_number = prev_location['text']
+            prev_location = self.location_desc[i]
+        self.longest_location = [location_number, longest_location_length]
+
     def write_output(self):
         f = open(self.outputfile, 'w')
-        data = {"total_scenes":self.total_scenes, "avg_scene_desc_length":self.avg_scene_desc_length, "total_dialogs":self.total_dialogs, 
-                "avg_dialog_length":self.avg_dialog_length, "dialog_scene_ratio":self.dialog_scene_ratio, "total_scenes":self.count_location_descrption}
+        data = {"total_scenes":self.total_scenes, "avg_scene_desc_length":self.avg_scene_desc_length, 
+                "total_dialogs":self.total_dialogs, "avg_dialog_length":self.avg_dialog_length, 
+                "dialog_scene_ratio":self.dialog_scene_ratio, "total_locations":self.count_location_descrption,
+                "lines_by_char": self.lines_by_char, "scenes_by_char":self.scenes_by_char, "longest_scene":self.longest_scene,
+                "longest_location": self.longest_location, "longest_monolog": self.longest_monolog,
+                "overly_used_words": self.overly_used_words}
         f.write(json.dumps(data))
         f.write('\n\n\n\n\n\n')
         f.write('----------CAMERA DESC-------------------------\n')
@@ -144,8 +230,6 @@ class ScriptParser:
                 f.write(l)
             f.close()
 
-        
-
     def save_edit_desc(self, line, words, spaces):
         # check if the A card is palces correctly if not send this to scene description
         if words[0] == 'A' and 'card' not in line.lower():
@@ -168,8 +252,8 @@ class ScriptParser:
         csv_line = line.strip('\n')
         csv_line = csv_line.strip('\r')
         csv_line = csv_line.replace(',',':')
-        self.csv_lines.append("%s, %s, %s\n" %(self.line_count, csv_line, "location_description"))
-        self.location_desc.append({"text":line, "ln":self.line_count})
+        self.csv_lines.append("%s, %s, %s, %s\n" %(self.line_count, csv_line, "location_description", self.location_count))
+        self.location_desc.append({"text":line, "ln":self.line_count, "location_count":self.location_count})
     
     def save_unprocessed_lines(self, line, words, spaces):
         csv_line = line.strip('\n')
@@ -181,24 +265,24 @@ class ScriptParser:
     def save_scene_desc(self, input_line, input_words, input_spaces):
         scene_start = self.line_count
         cur_scene = input_line
-        scene_length = 1
+        scene_desc_length = 1
         pos = self.fp.tell()
         line = self.fp.readline()
         line, words, spaces = self.process_line(line)
-        scene_length += 1
+        scene_desc_length += 1
         while ((spaces - input_spaces < 3) and (len(words) != 0)):
             if words:
                 cur_scene = "%s %s" % (cur_scene, line)
             pos = self.fp.tell()
             line = self.fp.readline()
             line, words, spaces = self.process_line(line)
-            scene_length += 1
+            scene_desc_length += 1
 
         csv_line = cur_scene.strip('\n')
         csv_line = csv_line.strip('\r')
         csv_line = csv_line.replace(',',':')
-        self.csv_lines.append("%s, %s, %s, %s\n" %(scene_start, csv_line, "scene_description", scene_length-1, ))
-        self.scene_desc.append({"text":cur_scene, "ln":scene_start, "sce_len":scene_length-1})
+        self.csv_lines.append("%s, %s, %s, %s, %s\n" %(scene_start, csv_line, "scene_description", scene_desc_length-1, self.scene_count))
+        self.scene_desc.append({"text":cur_scene, "ln":scene_start, "sce_desc_len":scene_desc_length-1, "scene_count":self.scene_count})
         self.fp.seek(pos)
 
     def save_dialogs(self, input_line, input_words, input_spaces):
@@ -220,9 +304,8 @@ class ScriptParser:
         csv_line = cur_dialog.strip('\n')
         csv_line = csv_line.strip('\r')
         csv_line = csv_line.replace(',',':')
-        self.csv_lines.append("%s, %s, %s, %s, %s\n" %(dialog_start, csv_line, "dialog", dialog_length-1, char))
-        self.dialog.append({"text":cur_dialog, "ln":dialog_start, "dia_len":dialog_length-1, "char":char})
-
+        self.csv_lines.append("%s, %s, %s, %s, %s, %s, %s\n" %(dialog_start, csv_line, "dialog", dialog_length-1, char, self.scene_count, self.location_count))
+        self.dialog.append({"text":cur_dialog, "ln":dialog_start, "dia_len":dialog_length-1, "char":char, "scene_num":self.scene_count, "loc_count":self.location_count})
 
 def parse_options():
 
