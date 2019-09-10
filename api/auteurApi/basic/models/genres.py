@@ -27,10 +27,10 @@ class Genres(models.Model):
 
     def get_list(self):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT genre FROM genres")
+            cursor.execute("SELECT id, genre FROM genres")
             genre_list = []
             row = cursor.fetchone()
             while row:
-                genre_list.append(row[0])
+                genre_list.append({"id":row[0], "name":row[1]})
                 row = cursor.fetchone()
         return genre_list

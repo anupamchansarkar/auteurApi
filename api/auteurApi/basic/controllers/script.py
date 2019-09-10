@@ -90,7 +90,7 @@ class Script(Base):
         # save details to scripts table
         page_count = self.get_page_count(file_path)
         in_name = self.request.FILES['file'].name
-        clean_name = re.sub(r'\W+', '', in_name)
+        clean_name = re.sub(r'\W+', ' ', in_name)
         clean_name = clean_name.replace('pdf', '')
         clean_name = '%s.pdf' % (clean_name)
         script_obj = Scripts()

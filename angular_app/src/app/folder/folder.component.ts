@@ -11,8 +11,10 @@ export class FolderComponent implements OnInit {
     loading = false;
     users: any[] = [];
     folderData: any;
+    genreList: any;
     folderId: any;
     fileToUpload: File = null;
+    genreValue: any = null;
 
     constructor(
         private userService: UserService,
@@ -31,22 +33,40 @@ export class FolderComponent implements OnInit {
             .subscribe(
                 data => {
                     this.folderData = data;
-                    this.loading = true;
+                    
                 },
                 error => {
                     this.alertService.error(error);
                     this.loading = false;
                 });
+        await this.userService.getGenreList(this.currentUser.access_token)
+            .subscribe(
+                genreList => {
+                    this.genreList = genreList;
+                    this.loading = true;
+                },
+                error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                }
+            );
     }
 
     handleFileInput(files: FileList) {
         this.fileToUpload = files.item(0);
-        console.log(this.fileToUpload);
+        if (!this.genreValue) {
+            alert('Please select a genre from the list');
+            location.reload();
+        }
         this.uploadFileToActivity();
     }
 
+    dropdownValue(value) {
+        this.genreValue = value;
+    }
+
     uploadFileToActivity() {
-        this.userService.postFile(this.fileToUpload, this.currentUser.access_token).subscribe(data => {
+        this.userService.postFile(this.fileToUpload, this.currentUser.access_token, this.genreValue).subscribe(data => {
           // do something, if upload success
           location.reload();
           }, error => {

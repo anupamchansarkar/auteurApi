@@ -42,6 +42,7 @@ export class ScriptComponent implements OnInit {
             .subscribe(
                 data => {
                     this.scriptScores = data;
+                    console.log(this.scriptScores);
                     this.loading = true;
                 },
                 error => {

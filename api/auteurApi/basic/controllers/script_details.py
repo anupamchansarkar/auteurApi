@@ -47,14 +47,12 @@ class Script_Details(Base):
 
         r = {"dialog_scene_ratio": round(text['dialog_scene_ratio'], 2), 
              "total_scenes": text['total_scenes'],
-             "total_locations": text['total_locations'],
              "pages": round(data['page_count'],2),
              "avg_scene_length": round(text['avg_scene_desc_length'],2),
              "avg_dialog_length": round(text['avg_dialog_length'],2),
              "lines_by_char": lines_by_char,
              "scenes_by_char": scenes_by_char,
              "longest_scene": text['longest_scene'],
-             "longest_location": text['longest_location'],
              "longest_monolog": text['longest_monolog'],
              "overly_used_words": overly_used_words,
              "averages": averages}

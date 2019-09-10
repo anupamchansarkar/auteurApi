@@ -16235,7 +16235,7 @@ strong {
       .kt-portlet .kt-portlet__head .kt-portlet__head-label .kt-portlet__head-title {
         margin: 0;
         padding: 0;
-        font-size: 1.2rem;
+        font-size: 1.8rem;
         font-weight: 500;
         color: #3d4465; }
         .kt-portlet .kt-portlet__head .kt-portlet__head-label .kt-portlet__head-title small {
@@ -25043,7 +25043,7 @@ code {
     margin-left: 1.5rem;
     margin-right: 2rem; }
     .kt-widget-21 .kt-widget-21__title .kt-widget-21__label {
-      font-size: 2.2rem;
+      font-size: 14px;
       font-weight: 600;
       color: #646c9a; }
       .kt-widget-21 .kt-widget-21__title .kt-widget-21__label small {
@@ -25054,7 +25054,7 @@ code {
       opacity: 0.08;
       position: absolute;
       z-index: 0;
-      width: 120px;
+      width: 70px;
       top: 50%;
       left: 50%;
       -webkit-transform: translate(-50%, -50%);

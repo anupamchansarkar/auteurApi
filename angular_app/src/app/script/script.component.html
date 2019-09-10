@@ -31,9 +31,6 @@
                                 <img width="200"  src="./assets/media/logos/ScriptMaestro_SBug.png"  />
                             </a>
                         </div>
-                        <div class="kt-aside__brand-tools">
-                            <button class="kt-aside__brand-aside-toggler kt-aside__brand-aside-toggler--left" id="kt_aside_toggler"><span></span></button>
-                        </div>
                     </div>
                     <!-- end:: Aside Brand -->
 
@@ -159,6 +156,12 @@
                               <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
                             </div>
                           </div>
+                          <div class="kt-widget-21">
+                              <div class="kt-widget-21__title">
+                                <div class="kt-widget-21__label">Average: {{scriptScores.averages[0].avg_dialog_scene_ratio}}</div>
+                                <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
+                              </div>
+                          </div>
                         </div>
                       </div>
                       <!--end::Portlet-->
@@ -180,6 +183,12 @@
                                 <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
                               </div>
                             </div>
+                            <div class="kt-widget-21">
+                                <div class="kt-widget-21__title">
+                                  <div class="kt-widget-21__label">Average: {{scriptScores.averages[0].avg_scene_description_length}}</div>
+                                  <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
+                                </div>
+                              </div>
                           </div>
                         </div>
                         <!--end::Portlet-->
@@ -201,6 +210,12 @@
                                 <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
                               </div>
                             </div>
+                            <div class="kt-widget-21">
+                                <div class="kt-widget-21__title">
+                                  <div class="kt-widget-21__label">Average: {{scriptScores.averages[0].avg_dialog_length}}</div>
+                                  <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
+                                </div>
+                            </div>
                           </div>
                         </div>
                         <!--end::Portlet-->
@@ -216,9 +231,15 @@
                           <div class="kt-portlet__body kt-portlet__body--fluid">
                             <div class="kt-widget-21">
                               <div class="kt-widget-21__title">
-                                <div class="kt-widget-21__label">Scene count: {{scriptScores.total_scenes}}</div>
+                                <div class="kt-widget-21__label">Count: {{scriptScores.total_scenes}}</div>
                                 <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
                               </div>
+                            </div>
+                            <div class="kt-widget-21">
+                                <div class="kt-widget-21__title">
+                                  <div class="kt-widget-21__label">Average: {{scriptScores.averages[0].avg_scenes}}</div>
+                                  <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
+                                </div>
                             </div>
                           </div>
                         </div>
@@ -232,6 +253,101 @@
                             <div class="kt-portlet__head  kt-portlet__head--noborder">
                               <div class="kt-portlet__head-label">
                                 <h3 class="kt-portlet__head-title">Page Count</h3>
+                              </div>
+                            </div>
+                            <div class="kt-portlet__body kt-portlet__body--fluid">
+                              <div class="kt-widget-21">
+                                <div class="kt-widget-21__title">
+                                  <div class="kt-widget-21__label">Count: {{scriptScores.pages}}</div>
+                                  <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
+                                </div>
+                              </div>
+                              <div class="kt-widget-21">
+                                  <div class="kt-widget-21__title">
+                                    <div class="kt-widget-21__label">Average: {{scriptScores.averages[0].avg_page_count}}</div>
+                                    <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
+                          <!--end::Portlet-->
+                        </div>
+                                              <!--begin::Portlet-->
+                      <div class="col-lg-6 col-xl-4 order-lg-1 order-xl-1">
+  
+                          <!--begin::Portlet-->
+                          <div class="kt-portlet kt-portlet--height-fluid">
+                            <div class="kt-portlet__head  kt-portlet__head--noborder">
+                              <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">Lines by Character (top 5)</h3>
+                              </div>
+                            </div>
+                            <div class="kt-portlet__body kt-portlet__body--fluid">
+                              <div class="kt-widget-21">
+                                <div class="kt-widget-21__title">
+                                  <div class="kt-widget-21__label">Page count: {{scriptScores.pages}}</div>
+                                  <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--end::Portlet-->
+                        </div>
+                                              <!--begin::Portlet-->
+                      <div class="col-lg-6 col-xl-4 order-lg-1 order-xl-1">
+  
+                          <!--begin::Portlet-->
+                          <div class="kt-portlet kt-portlet--height-fluid">
+                            <div class="kt-portlet__head  kt-portlet__head--noborder">
+                              <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">Scenes by Character (top 5)</h3>
+                              </div>
+                            </div>
+                            <div class="kt-portlet__body kt-portlet__body--fluid">
+                              <div class="kt-widget-21">
+                                <div class="kt-widget-21__title">
+                                  <div class="kt-widget-21__label">
+                                    <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
+                                    <div *ngFor="let char of scriptScores.scenes_by_char">{{char[0]}} &nbsp; &nbsp; &nbsp; {{char[1]}}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--end::Portlet-->
+                        </div>
+                      <!--begin::Portlet-->
+                      <div class="col-lg-6 col-xl-4 order-lg-1 order-xl-1">
+  
+                      <!--begin::Portlet-->
+                      <div class="col-lg-6 col-xl-4 order-lg-1 order-xl-1">
+  
+                          <!--begin::Portlet-->
+                          <div class="kt-portlet kt-portlet--height-fluid">
+                            <div class="kt-portlet__head  kt-portlet__head--noborder">
+                              <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">Longest Scene</h3>
+                              </div>
+                            </div>
+                            <div class="kt-portlet__body kt-portlet__body--fluid">
+                              <div class="kt-widget-21">
+                                <div class="kt-widget-21__title">
+                                  <div class="kt-widget-21__label">Page count: {{scriptScores.pages}}</div>
+                                  <img src="./assets/media/misc/iconbox_bg.png" class="kt-widget-21__bg" alt="bg" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--end::Portlet-->
+                        </div>
+                      <!--begin::Portlet-->
+                      <div class="col-lg-6 col-xl-4 order-lg-1 order-xl-1">
+  
+                          <!--begin::Portlet-->
+                          <div class="kt-portlet kt-portlet--height-fluid">
+                            <div class="kt-portlet__head  kt-portlet__head--noborder">
+                              <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">Longest Monolog</h3>
                               </div>
                             </div>
                             <div class="kt-portlet__body kt-portlet__body--fluid">
