@@ -34,6 +34,13 @@ export class UserService {
         return this.http.get<any>(`${environment.apiUrl}/script/${id}/details`, {headers:localheaders});
     }
 
+    getScriptSentiments(id: string, access_token: string) {
+        let localheaders = new HttpHeaders({
+            'Authorization':  "Bearer " + access_token
+        });
+        return this.http.get<any>(`${environment.apiUrl}/script/${id}/sentiments`, {headers:localheaders});
+    }
+
     postFile(fileToUpload: File, access_token: string, genreValue: string){
         let localheaders = new HttpHeaders({
             'Authorization':  "Bearer " + access_token

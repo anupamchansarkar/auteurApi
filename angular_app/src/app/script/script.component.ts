@@ -19,9 +19,7 @@ export class ScriptComponent implements OnInit {
     scriptFolderId: string;
     scriptId: any;
     scriptScores: any;
-    yours: any;
-    standard: any;
-    ratio: any;
+    sentiment_data: any;
 
     constructor(private router: Router,
     private userService: UserService,
@@ -72,6 +70,20 @@ export class ScriptComponent implements OnInit {
 
     goHome() {
         this.router.navigate(['/folder', this.currentUser.folder_details.Scripts]);
+    }
+
+    async getSentimentGraphs() {
+        await this.userService.getScriptSentiments(this.scriptId, this.currentUser.access_token)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.sentiment_data = data;
+                    console.log(this.sentiment_data);
+                },
+                error => {
+                    this.alertService.error(error);
+                });
+
     }
 
 }
