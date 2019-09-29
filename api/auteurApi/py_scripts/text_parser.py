@@ -23,6 +23,7 @@ class ScriptParser:
         self.edit_desc = []
         self.camera_desc = []
         self.location_desc = []
+        self.current_scene_text = None
         self.scene_count = 0
         self.scene_desc = []
         self.scenes = []
@@ -93,7 +94,8 @@ class ScriptParser:
                 elif words and words[0] in LOCATIONWORDS:
                     self.scene_count += 1
                     if self.location_str != '':
-                        self.location_markers.append(self.location_str)
+                        scene_text = self.current_scene_text if self.current_scene_text else self.location_str[:20]
+                        self.location_markers.append({"scene_text": self.location_str, "scene_count": self.scene_count, "scene_desc":scene_text})
                     self.location_str = ''
                     self.save_location_desc(new_line, words, spaces)
                 elif words and not new_line.isupper():
@@ -185,15 +187,21 @@ class ScriptParser:
 
     def write_output(self):
         f = open(self.outputfile, 'w')
-        data = {"total_scenes":self.count_location_descrption, "avg_scene_desc_length":self.avg_scene_desc_length, 
-                "total_dialogs":self.total_dialogs, "avg_dialog_length":self.avg_dialog_length, 
+        data = {"total_scenes":self.count_location_descrption, 
+                "total_scene_descriptions": self.total_scene_descriptions,
+                "avg_scene_desc_length":self.avg_scene_desc_length, 
+                "total_dialogs":self.total_dialogs, 
+                "avg_dialog_length":self.avg_dialog_length, 
                 "dialog_scene_ratio":self.dialog_scene_ratio,
-                "lines_by_char": self.lines_by_char, "scenes_by_char":self.scenes_by_char,
-                "longest_scene": self.longest_scene, "longest_monolog": self.longest_monolog,
+                "lines_by_char": self.lines_by_char, 
+                "scenes_by_char":self.scenes_by_char,
+                "longest_scene": self.longest_scene, 
+                "longest_monolog": self.longest_monolog,
                 "overly_used_words": self.overly_used_words}
         f.write(json.dumps(data))
         f.write('\n')
         f.write(json.dumps(self.location_markers))
+        f.write('\n')
         f.write('\n\n\n\n\n\n')
         f.write('----------CAMERA DESC-------------------------\n')
         f.write(json.dumps(self.camera_desc))
@@ -249,6 +257,7 @@ class ScriptParser:
         csv_line = csv_line.replace(',',':')
         self.location_str = "%s \n %s" % (self.location_str, line)
         self.csv_lines.append("%s, %s, %s, %s\n" %(self.line_count, csv_line, "location_description", self.scene_count))
+        self.current_scene_text = line
         self.location_desc.append({"text":line, "ln":self.line_count, "scene_count":self.scene_count})
     
     def save_unprocessed_lines(self, line, words, spaces):

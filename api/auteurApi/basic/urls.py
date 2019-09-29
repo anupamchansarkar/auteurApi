@@ -12,4 +12,5 @@ urlpatterns = [
     path('genre', views.genre),
     re_path(r'^script/(?P<script_id>[0-9a-f]{40})$', views.script),
     re_path(r'^script/(?P<script_id>[0-9a-f]{40}/details)$', views.script_details),
+    re_path(r'^script/(?P<script_id>[0-9a-f]{40}/sentiments)$', views.script_sentiments),
 ]

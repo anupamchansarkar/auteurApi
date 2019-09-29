@@ -13,9 +13,7 @@ class Script_Details(Base):
         super().__init__(request)
 
     def get(self, in_url):
-        self.log.debug(in_url)
         script_unique_id = in_url.split("/")[0]
-        self.log.debug(script_unique_id)
 
         # open processed file
         saved_file_name = '%s/%s/%s.data' % (settings.SCRIPTS_FOLDER, 'extracted', script_unique_id)
@@ -46,6 +44,7 @@ class Script_Details(Base):
             overly_used_words = text['overly_used_words'][:20]
 
         r = {"dialog_scene_ratio": round(text['dialog_scene_ratio'], 2), 
+             "total_scene_descriptions": text['total_scene_descriptions'],
              "total_scenes": text['total_scenes'],
              "pages": round(data['page_count'],2),
              "avg_scene_length": round(text['avg_scene_desc_length'],2),

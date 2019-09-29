@@ -25,15 +25,16 @@ class Script_details(models.Model):
 
     def get_script_details(self, script_id):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT g.genre, g.avg_scenes, g.avg_dialog_scene_ratio, \
+            cursor.execute("SELECT g.genre, g.avg_scenes, g.average_scene_descriptions, g.avg_dialog_scene_ratio, \
                             g.avg_scene_description_length, g.avg_dialog_length, g.avg_page_count, \
                             g.avg_location_count FROM script_details as sd join genres as g on sd.genre_id = g.id WHERE \
                             sd.script_id = %s ", [script_id])
             script_details = []
             row = cursor.fetchone()
             while row:
-                script_details.append({"genre":row[0], "avg_scenes":row[1], "avg_dialog_scene_ratio": row[2], 
-                                       "avg_scene_description_length": row[3], "avg_dialog_length": row[4],
-                                       "avg_page_count": row[5], "avg_location_count": row[6]})
+                script_details.append({"genre":row[0], "avg_scenes":row[1], "average_scene_descriptions":row[2], 
+                                       "avg_dialog_scene_ratio": row[3], 
+                                       "avg_scene_description_length": row[4], "avg_dialog_length": row[5],
+                                       "avg_page_count": row[6], "avg_location_count": row[7]})
                 row = cursor.fetchone()
         return script_details

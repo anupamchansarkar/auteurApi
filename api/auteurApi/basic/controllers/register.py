@@ -47,7 +47,6 @@ class Register(Base):
             response = request.urlopen(req)
             if response.code == 200:
                 res = response.read()
-                self.log.debug(res)
                 output = res.decode('utf-8')
                 output = eval(output)
                 output = {"id":output['id']}

@@ -8,6 +8,7 @@ from basic.controllers.oauth import Oauth
 from basic.controllers.folder import Folder
 from basic.controllers.script import Script
 from basic.controllers.script_details import Script_Details
+from basic.controllers.script_sentiments import Script_Sentiments
 from basic.controllers.genre import Genre
 import requests
 import logging
@@ -61,3 +62,9 @@ def script_details(request, script_id):
 def genre(request):
     genre_obj = Genre(request)
     return genre_obj.get()
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def script_sentiments(request, script_id):
+    script_sentiments_obj = Script_Sentiments(request)
+    return script_sentiments_obj.get(script_id)
