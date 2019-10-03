@@ -1,10 +1,72 @@
-"use strict";
-// Class definition
-var KTFlotchartsDemo = function() {
+KTFlotchartsDemo = function(scores, labels) {
+
+    console.log('inside KTFlot function');
 
     // Private functions
 
-    var demo1 = function() {
+    var myChart = function(scores, labels) {
+
+        var chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(231,233,237)'
+          };
+          
+          var config = {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: "Sentiment Analysis",
+                backgroundColor: chartColors.red,
+                borderColor: chartColors.red,
+                data: scores,
+                fill: false,
+              }]
+            },
+            options: {
+              responsive: true,
+              title: {
+                display: true,
+                text: 'Line Chart'
+              },
+              tooltips: {
+                mode: 'label',
+              },
+              hover: {
+                mode: 'nearest',
+                intersect: true
+              },
+              scales: {
+                xAxes: [{
+                  display: true,
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Scene Description'
+                  }
+                }],
+                yAxes: [{
+                  display: true,
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Score'
+                  }
+                }]
+              }
+            }
+          };
+          
+          
+          var ctx = document.getElementById("canvas").getContext("2d");
+          window.myLine = new Chart(ctx, config);
+    }
+
+    var demo1 = function () {
+        console.log("inside demo1");
         var data = [];
         var totalPoints = 250;
 
@@ -41,7 +103,7 @@ var KTFlotchartsDemo = function() {
         for (var i = 0; i < Math.PI * 2; i += 0.1)
             d3.push([i, Math.tan(i)]);
 
-        $.plot($("#kt_flotcharts_1"), [{
+         $.plot($("#kt_flotcharts_1"), [{
             label: "sin(x)",
             data: d1,
             lines: {
@@ -49,22 +111,6 @@ var KTFlotchartsDemo = function() {
             },
             shadowSize: 0,
             color: '#f6aa33'
-        }, {
-            label: "cos(x)",
-            data: d2,
-            lines: {
-                lineWidth: 1,
-            },
-            shadowSize: 0,
-            color: '#6e4ff5'
-        }, {
-            label: "tan(x)",
-            data: d3,
-            lines: {
-                lineWidth: 1,
-            },
-            shadowSize: 0,
-            color: '#fe3995'
         }], {
             series: {
                 lines: {
@@ -84,16 +130,6 @@ var KTFlotchartsDemo = function() {
                     [Math.PI * 3 / 2, "3\u03c0/2"],
                     [Math.PI * 2, "2\u03c0"]
                 ]
-            },
-            yaxis: {
-                tickColor: "#eee",
-                ticks: 10,
-                min: -2,
-                max: 2
-            },
-            grid: {
-                borderColor: "#eee",
-                borderWidth: 1
             }
         });
     }
@@ -722,28 +758,5 @@ var KTFlotchartsDemo = function() {
                 });
     }
 
-
-    return {
-        // public functions
-        init: function() {
-            // default charts
-            demo1();
-            demo2();
-            demo3();
-            demo4();
-            demo5();
-            demo6();
-            demo7();
-
-            // pie charts
-            demo8();
-            demo9();
-            demo10();
-            demo11();
-        }
-    };
-}();
-
-jQuery(document).ready(function() {
-    KTFlotchartsDemo.init();
-});
+    myChart(scores, labels);
+};

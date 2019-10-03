@@ -25,7 +25,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/demo2/pages/components/charts/flotcharts.js"
+            ]
           },
           "configurations": {
             "production": {

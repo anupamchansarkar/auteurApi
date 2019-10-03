@@ -380,6 +380,21 @@
                   </div>
                   <!-- end:: row-->
                   <button type="button" class="btn-primary btn" style="color: white; line-height: 1em;-webkit-appearance: inherit;"  id="loadFileXml" value="sentiments" (click)="getSentimentGraphs()">Sentiment Graphs</button>
+                  
+                  <!--begin::Portlet-->
+									<div *ngIf="sentiment_loading" class="kt-portlet">
+                      <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                          <h3 class="kt-portlet__head-title">Sentiment Analysis by Scene</h3>
+                        </div>
+                      </div>
+                      <div class="kt-portlet__body">
+                          <canvas id="canvas" style="width:75%;"></canvas>
+                      </div>
+                    </div>
+  
+                    <!--end::Portlet-->
+                
                 </div>
                 <!-- end:: Wrapper -->
             </div>

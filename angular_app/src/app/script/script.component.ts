@@ -6,6 +6,8 @@ import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 import { UserService, AuthenticationService, AlertService } from '@app/_services';
 
+declare function KTFlotchartsDemo(scores, scenes): any;
+
 @Component({
   selector: 'app-script',
   templateUrl: './script.component.html',
@@ -20,6 +22,7 @@ export class ScriptComponent implements OnInit {
     scriptId: any;
     scriptScores: any;
     sentiment_data: any;
+    sentiment_loading = false;
 
     constructor(private router: Router,
     private userService: UserService,
@@ -73,12 +76,16 @@ export class ScriptComponent implements OnInit {
     }
 
     async getSentimentGraphs() {
+        this.sentiment_loading = true;
         await this.userService.getScriptSentiments(this.scriptId, this.currentUser.access_token)
             .pipe(first())
             .subscribe(
                 data => {
                     this.sentiment_data = data;
                     console.log(this.sentiment_data);
+                    console.log(this.sentiment_data.scores);
+                    console.log(this.sentiment_data.scenes);
+                    KTFlotchartsDemo(this.sentiment_data.scores, this.sentiment_data.scenes);
                 },
                 error => {
                     this.alertService.error(error);

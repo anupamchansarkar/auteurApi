@@ -33,8 +33,8 @@ class Script_Sentiments(Base):
         f.close()
         scenes = json.loads(line)
 
-        results = []
-        lines = ""
+        scene_desc_array = []
+        scores = []
         for scene in scenes:
             # get score from the IBM API
             scene_data = scene['scene_text']
@@ -42,22 +42,22 @@ class Script_Sentiments(Base):
             try:
                 response = self.make_curl_call(scene_data)
                 score = response['sentiment']['document']['score']
-                label = response['sentiment']['document']['label']
+                scene_desc = scene['scene_desc'].replace(',',':')
+                scene_desc = scene_desc.replace('\n','')
+                scene_desc = scene_desc.replace('\r','')
+                scene_desc_array.append(scene_desc)
+                scores.append(score)
             except:
                 self.log.error('failed to process current scene data...trying the next one')
                 self.log.error('scene data: %s' % scene_data)
-            scene_desc = scene['scene_desc'].replace(',',':')
-            scene_desc = scene_desc.replace('\n','')
-            scene_desc = scene_desc.replace('\r','')
-            results.append([scene_desc, scene['scene_count'], score, label])
 
         f = open(output_csv_file, 'w')
-        r = json.dumps({"results":results})
+        r = json.dumps({"scenes":scene_desc_array, "scores":scores})
         f.write(r)
         f.close()
 
         # return file here
-        return self.response(r)
+        return self.response(json.loads(r))
 
     def make_curl_call(self, data):
         username = 'apikey'
@@ -66,6 +66,7 @@ class Script_Sentiments(Base):
         payload = json.dumps({"text": data, "features" : { "sentiment": {}}})
         headers = {'content-type': 'application/json'}
         response = requests.post(url, data=payload, headers=headers, auth=HTTPBasicAuth(username, password))
+        self.log.debug(response)
         if response.status_code == 200:
             return response.json()
         else:
@@ -77,4 +78,5 @@ class Script_Sentiments(Base):
     def load_results_from_file(self, output_csv_file):
         f = open(output_csv_file)
         data = f.read()
+        data = json.loads(data)
         return data

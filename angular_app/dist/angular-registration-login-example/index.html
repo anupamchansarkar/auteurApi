@@ -11,85 +11,108 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
+		<!--begin::Fonts -->
+		<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+		<script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 		
+		<script src="http://cdn.jsdelivr.net/jquery.flot/0.8.3/jquery.flot.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.js"></script>
+		<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.bundle.min.js"></script>
+		
+		<script>
+			WebFont.load({
+				google: {
+					"families": ["Poppins:300,400,500,600,700"]
+				},
+				active: function() {
+					sessionStorage.fonts = true;
+				}
+			});
+		</script>
+
+		<!--end::Fonts -->
+
+		<!--begin::Page Vendors Styles(used by this page) -->
+		<link href="./assets/vendors/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+
+		<!--end::Page Vendors Styles -->
+
+		<!--begin::Global Theme Styles(used by all pages) -->
+		<link href="./assets/vendors/global/vendors.bundle.css" rel="stylesheet" type="text/css" />
+		<link href="./assets/css/demo2/style.bundle.css" rel="stylesheet" type="text/css" />
+
+		<!--end::Global Theme Styles -->
+
+		<!--begin::Layout Skins(used by all pages) -->
+		<link href="./assets/css/demo2/skins/aside/brand.css" rel="stylesheet" type="text/css" />
+
+		<!--end::Layout Skins -->
 		<link rel="icon" type="image/x-icon" href="scriptmaestro.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- bootstrap css -->
 
         <style>
             a { cursor: pointer }
-		</style>
-		<link
-		href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Material+Icons"
-		rel="stylesheet"
-	  />
-	  <style>
-		.app-loader {
-		  height: 100vh !important;
-		  width: 100%;
-		  position: absolute;
-		  top: 0;
-		  left: 0;
-		  display: flex;
-		  align-items: center;
-		}
-		.spinner {
-		  width: 40px;
-		  height: 40px;
-		  position: relative;
-		  margin: auto;
-		}
-		.double-bounce1,
-		.double-bounce2 {
-		  width: 100%;
-		  height: 100%;
-		  border-radius: 50%;
-		  opacity: 0.6;
-		  position: absolute;
-		  top: 0;
-		  left: 0;
-		  -webkit-animation: sk-bounce 2s infinite ease-in-out;
-		  animation: sk-bounce 2s infinite ease-in-out;
-		}
-		.double-bounce2 {
-		  -webkit-animation-delay: -1s;
-		  animation-delay: -1s;
-		}
-		@-webkit-keyframes sk-bounce {
-		  0%,
-		  100% {
-			-webkit-transform: scale(0);
-		  }
-		  50% {
-			-webkit-transform: scale(1);
-		  }
-		}
-		@keyframes sk-bounce {
-		  0%,
-		  100% {
-			transform: scale(0);
-			-webkit-transform: scale(0);
-		  }
-		  50% {
-			transform: scale(1);
-			-webkit-transform: scale(1);
-		  }
-		}
-	  </style>
+        </style>
     </head>
 
-	<body>
-
-		<app-root>
-			<div class="app-loader">
-				<div class="spinner">
-					<div class="double-bounce1 mat-bg-primary" style="background: #fcc02e;"></div>
-					<div class="double-bounce2 mat-bg-accent" style="background: #03a9f4;"></div>
-				</div>
-			</div>
-		</app-root>
+	<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--static kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--fixed kt-page--loading">
 	
 		<app style="height: 100%;">Loading...</app>
 
-    <script type="text/javascript" src="runtime.js"></script><script type="text/javascript" src="polyfills.js"></script><script type="text/javascript" src="vendor.js"></script><script type="text/javascript" src="main.js"></script></body>
+
+		<!-- begin::Global Config(global config for global JS sciprts) -->
+		<script>
+				var KTAppOptions = {
+					"colors": {
+						"state": {
+							"brand": "#5578eb",
+							"metal": "#c4c5d6",
+							"light": "#ffffff",
+							"accent": "#00c5dc",
+							"primary": "#5867dd",
+							"success": "#34bfa3",
+							"info": "#36a3f7",
+							"warning": "#ffb822",
+							"danger": "#fd3995",
+							"focus": "#9816f4"
+						},
+						"base": {
+							"label": [
+								"#c5cbe3",
+								"#a1a8c3",
+								"#3d4465",
+								"#3e4466"
+							],
+							"shape": [
+								"#f0f3ff",
+								"#d9dffa",
+								"#afb4d4",
+								"#646c9a"
+							]
+						}
+					}
+				};
+			</script>
+	
+			<!-- end::Global Config -->
+	
+			<!--begin::Global Theme Bundle(used by all pages) -->
+			<script src="./assets/vendors/global/vendors.bundle.js" type="text/javascript"></script>
+			<script src="./assets/js/demo2/scripts.bundle.js" type="text/javascript"></script>
+	
+			<!--end::Global Theme Bundle -->
+	
+			<!--begin::Page Vendors(used by this page) -->
+			<script src="./assets/vendors/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
+	
+			<!--end::Page Vendors -->
+	
+			<!--begin::Page Scripts(used by this page) -->
+			<script src="./assets/js/demo1/pages/dashboard.js" type="text/javascript"></script>
+	
+			<!--end::Page Scripts -->
+    <script type="text/javascript" src="runtime.js"></script><script type="text/javascript" src="polyfills.js"></script><script type="text/javascript" src="styles.js"></script><script type="text/javascript" src="scripts.js"></script><script type="text/javascript" src="vendor.js"></script><script type="text/javascript" src="main.js"></script></body>
     
 </html>
