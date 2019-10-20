@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://vm.auteur.com'
+  apiUrl: 'http://api.scriptmaestro.com:8000'
 };
 
 /*

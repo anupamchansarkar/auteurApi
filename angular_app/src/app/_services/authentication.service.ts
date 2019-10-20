@@ -31,7 +31,10 @@ export class AuthenticationService {
 
     login(username: string, password: string) {
         const body = {scope: '*', grant_type: 'password', email: username, password: password};
-        return this.http.post<any>(`${environment.apiUrl}/authentication/token`, body, {headers:this.basicHeaders});
+        console.log(body);
+        var data = this.http.post<any>(`${environment.apiUrl}/authentication/token`, body, {headers:this.basicHeaders});
+        console.log(data);
+        return data;
     }
 
     getUser(data: any) {

@@ -25,9 +25,9 @@ SECRET_KEY = '%$^jb(pbazj5z6veo$tmmx#59cwle-0u9^8x68unb91$32p6__'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'vm.auteur.com']
+ALLOWED_HOSTS = ['*']
 
-SITE_HOST = 'http://vm.auteur.com'
+SITE_HOST = 'http://api.scriptmaestro.com'
 
 CLIENT_ID = 'dWZWsZLH1bZ0uvT0cEGEDrC5LNDYTguw7HPK6Eqj'
 CLIENT_SECRET = 'ggShTuiI84s8SYJNisq2Qr0ylqMYIkKy6mIhWKsMM3bw95ZO2lYj2w5z3G2FMTzNETKl7DT5selMWb9TjR8ELrEJwZrZ9HUuChTIMLrIc0QwhuWNhu7xv7O1LEvuGgSK'
