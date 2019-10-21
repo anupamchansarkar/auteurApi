@@ -5,7 +5,9 @@ from basic.models.users import Users
 from basic.models.emails import Emails
 from basic.models.user.folders import User_folders
 from basic.models.system.folders import System_folders
+from basic.models.sentiment.count.limits import Sentiment_Count_Limits
 
+SENTIMENT_LIMIT = 1
 
 class User(Base):
     def __init__(self, request):
@@ -58,6 +60,11 @@ class User(Base):
         for id, name in system_folders_dict.items():
             user_folder_obj.set_params(name=name, user_id=self.user_id, application_id=self.application_id, is_system=1, parent_id=root_folder_id, permissions=7)
             user_folder_obj.save()
+
+        # create sentiment count limits
+        sentiment_count_limits = Sentiment_Count_Limits()
+        sentiment_count_limits.set_params(user_id=self.user_id, sentiment_limit=SENTIMENT_LIMIT)
+        sentiment_count_limits.save()
 
         # post email in the end, in case the folders are not created we do not want to register the user
 

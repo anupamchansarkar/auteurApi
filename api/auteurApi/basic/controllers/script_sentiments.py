@@ -1,7 +1,8 @@
+from .base import Base
 from django.core.validators import validate_email
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
-from .base import Base
+from rest_framework import exceptions
 from requests.auth import HTTPBasicAuth
 
 import json
@@ -10,6 +11,7 @@ import requests
 
 from basic.models.scripts import Scripts
 from basic.models.script.details import Script_details
+from basic.models.sentiment.counts import Sentiment_Counts
 
 class Script_Sentiments(Base):
     def __init__(self, request):
@@ -23,6 +25,15 @@ class Script_Sentiments(Base):
         if (os.path.exists(output_csv_file)):
             results = self.load_results_from_file(output_csv_file)
             return self.response(results)
+
+        # check if the user has exceed the limit for the day
+        sentiment_counts = Sentiment_Counts()
+        if sentiment_counts.check_if_exceed_limit(self.user_id):
+            raise exceptions.PermissionDenied('Exceeded the daily limit')
+
+        # save the current count
+        sentiment_counts.set_params(user_id=self.user_id)
+        sentiment_counts.save()
 
         # open processed file
         saved_file_name = '%s/%s/%s.data' % (settings.SCRIPTS_FOLDER, 'extracted', script_unique_id)

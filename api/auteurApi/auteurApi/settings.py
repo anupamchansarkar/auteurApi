@@ -27,7 +27,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-SITE_HOST = 'http://api.scriptmaestro.com'
+SITE_HOST = 'http://api.scriptmaestro.com:8000'
 
 CLIENT_ID = 'dWZWsZLH1bZ0uvT0cEGEDrC5LNDYTguw7HPK6Eqj'
 CLIENT_SECRET = 'ggShTuiI84s8SYJNisq2Qr0ylqMYIkKy6mIhWKsMM3bw95ZO2lYj2w5z3G2FMTzNETKl7DT5selMWb9TjR8ELrEJwZrZ9HUuChTIMLrIc0QwhuWNhu7xv7O1LEvuGgSK'

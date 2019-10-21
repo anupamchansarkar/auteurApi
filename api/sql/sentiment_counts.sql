@@ -2,10 +2,9 @@ use auteur;
 
 CREATE TABLE `sentiment_counts` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `script_id` bigint(20) unsigned NOT NULL,
-  `time` bigint(10) unsigned NOT NULL,
-  `limit` tinyint(3) unsigned NOT NULL DEFAULT 1,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `created` bigint(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `sentiment_counts_script_id` (`script_id`),
-  KEY `sentiment_counts_time` (`time`)
-) ENGINE=InnoDB CHARSET=utf8;
+  KEY `sentiment_counts_user_id` (`user_id`),
+  KEY `sentiment_counts_created` (`created`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

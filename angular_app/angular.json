@@ -23,7 +23,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/demo1/pages/custom/general/user/login-v1.css"
             ],
             "scripts": [
               "src/assets/js/demo2/pages/components/charts/flotcharts.js"
