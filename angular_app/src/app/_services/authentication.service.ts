@@ -11,6 +11,7 @@ export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
     user : any;
+    source: string;
 
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
@@ -25,15 +26,16 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    register(user: User) {
-        return this.http.post(`${environment.apiUrl}/authentication/register`, user, {headers: this.basicHeaders});
+    register(user1: any) {
+        this.source = localStorage.getItem('source');
+        console.log(this.source);
+        const body = {first_name: user1.first_name, last_name: user1.last_name, email: user1.email, password: user1.password, source:this.source};
+        return this.http.post(`${environment.apiUrl}/authentication/register`, body, {headers: this.basicHeaders});
     }
 
     login(username: string, password: string) {
         const body = {scope: '*', grant_type: 'password', email: username, password: password};
-        console.log(body);
         var data = this.http.post<any>(`${environment.apiUrl}/authentication/token`, body, {headers:this.basicHeaders});
-        console.log(data);
         return data;
     }
 

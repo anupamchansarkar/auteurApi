@@ -10,6 +10,7 @@ from basic.controllers.script import Script
 from basic.controllers.script_details import Script_Details
 from basic.controllers.script_sentiments import Script_Sentiments
 from basic.controllers.genre import Genre
+
 import requests
 import logging
 log = logging.getLogger(__name__)

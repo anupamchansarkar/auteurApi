@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
     appData: any;
     scriptFolderId: any;
     loginError = false;
+    source: string;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -27,6 +28,15 @@ export class LoginComponent implements OnInit {
     }
 
     async ngOnInit() {
+        this.route.queryParams
+            .filter(params => params.source)
+            .subscribe(params => {
+
+            this.source = params.source;
+            console.log(this.source);
+            localStorage.setItem('source', this.source);
+        });
+
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]

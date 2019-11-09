@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
@@ -11,9 +11,11 @@ export class RegisterComponent implements OnInit {
     submitted = false;
     registrationError = false;
     errorMessage: any;
+    source: string;
 
     constructor(
         private formBuilder: FormBuilder,
+        private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
     ) { 
@@ -21,6 +23,14 @@ export class RegisterComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.route.queryParams
+            .filter(params => params.source)
+            .subscribe(params => {
+
+            this.source = params.source;
+            console.log(this.source);
+            localStorage.setItem('source', this.source);
+        });
         this.registerForm = this.formBuilder.group({
             first_name: ['', Validators.required],
             last_name: ['', Validators.required],

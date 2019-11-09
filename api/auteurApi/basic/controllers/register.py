@@ -23,6 +23,8 @@ class Register(Base):
         if not self.password:
             raise exceptions.ValidationError('password cannot be empty')
         self.email = self.payload.get('email')
+        self.source = self.payload.get('source')
+        self.log.debug(self.source)
         try:
             validate_email(self.email)
         except:
@@ -38,9 +40,11 @@ class Register(Base):
         self.validate_payload()
 
         # post user
-        data = {'first_name':self.first_name, 'last_name':self.last_name, 'email':self.email, 'password':self.password}
+        data = {'first_name':self.first_name, 'last_name':self.last_name, 'email':self.email, 'password':self.password, 'source':self.source}
         data = parse.urlencode(data).encode()
         url = settings.SITE_HOST + '/user'
+        self.log.debug(url)
+        self.log.debug(data)
         headers = {'Authorization': self.auth}
         req = request.Request(url, data=data, headers=headers)
         try:

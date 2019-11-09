@@ -6,6 +6,7 @@ from basic.models.emails import Emails
 from basic.models.user.folders import User_folders
 from basic.models.system.folders import System_folders
 from basic.models.sentiment.count.limits import Sentiment_Count_Limits
+from basic.models.registration.source import Registration_Sources
 
 SENTIMENT_LIMIT = 1
 
@@ -24,6 +25,7 @@ class User(Base):
         if not self.password:
             raise exceptions.ValidationError('password cannot be empty')
         self.email = self.payload.get('email')
+        self.source = self.payload.get('source')
         try:
             validate_email(self.email)
         except:
@@ -65,6 +67,12 @@ class User(Base):
         sentiment_count_limits = Sentiment_Count_Limits()
         sentiment_count_limits.set_params(user_id=self.user_id, sentiment_limit=SENTIMENT_LIMIT)
         sentiment_count_limits.save()
+
+        # save source
+        if self.source:
+            registration_source_obj = Registration_Sources()
+            registration_source_obj.set_params(user_id=self.user_id, source=self.source)
+            registration_source_obj.save()
 
         # post email in the end, in case the folders are not created we do not want to register the user
 
