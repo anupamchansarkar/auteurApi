@@ -10,6 +10,7 @@ from basic.controllers.script import Script
 from basic.controllers.script_details import Script_Details
 from basic.controllers.script_sentiments import Script_Sentiments
 from basic.controllers.genre import Genre
+from basic.controllers.price import Price
 
 import requests
 import logging
@@ -42,6 +43,12 @@ def user(request, user_id=None):
 def folder(request, folder_id=None):
     folder_obj = Folder(request)
     return folder_obj.get(folder_id)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def price(request):
+    price_obj = Price(request)
+    return price_obj.post()
 
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])

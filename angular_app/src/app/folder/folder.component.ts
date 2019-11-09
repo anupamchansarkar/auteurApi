@@ -4,7 +4,10 @@ import { first } from 'rxjs/operators';
 import {Router, ActivatedRoute} from '@angular/router';
 import { UserService, AlertService } from '@app/_services';
 
-@Component({ templateUrl: 'folder.component.html' })
+@Component({ 
+    templateUrl: 'folder.component.html', 
+    styleUrls: ['folder.component.css'] 
+    })
 export class FolderComponent implements OnInit {
     currentUser: any;
     testUser: any;

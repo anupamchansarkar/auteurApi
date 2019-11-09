@@ -34,6 +34,14 @@ export class UserService {
         return this.http.get<any>(`${environment.apiUrl}/script/${id}/details`, {headers:localheaders});
     }
 
+    postPrice(option: string, access_token: string) {
+        let localheaders = new HttpHeaders({
+            'Authorization':  "Bearer " + access_token
+        });
+        const body ={"option":option};
+        return this.http.post(`${environment.apiUrl}/price`, body, {headers:localheaders});
+    }
+
     getScriptSentiments(id: string, access_token: string) {
         let localheaders = new HttpHeaders({
             'Authorization':  "Bearer " + access_token

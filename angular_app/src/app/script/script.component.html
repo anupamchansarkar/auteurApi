@@ -388,18 +388,18 @@
                     </div>
                   <!--end::Portlet-->
                   <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-                    Launch demo modal
-                  </button>
+                  
+                  <button id="openModal" #openModal [hidden]="true" data-toggle="modal" data-target="#price-modal"> </button>
                   <!-- Modal -->
-                  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                  <div class="modal fade" id="price-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">Scriptmaestro</h5>
+                          <h5 class="modal-title" id="price-modal">Scriptmaestro</h5>
                         </div>
                         <div class="modal-body">
                           <h2 style="text-align:center">Pricing</h2>
+                          <a role="button" (click)="postOption('3.99')" data-dismiss="modal">
                             <div class="columns">
                               <ul class="price">
                                 <li class="header">Basic</li>
@@ -407,6 +407,8 @@
                                 <li>Single upload</li>
                               </ul>
                             </div>
+                          </a>
+                          <a role="button" (click)="postOption('9.99')" data-dismiss="modal">
                             <div class="columns">
                               <ul class="price">
                                 <li class="header" style="background-color:#4CAF50">Pro</li>
@@ -414,6 +416,8 @@
                                 <li>3 uploads</li>
                               </ul>
                             </div>
+                          </a>
+                          <a role="button" (click)="postOption('29.99')" data-dismiss="modal">
                             <div class="columns">
                               <ul class="price">
                                 <li class="header">Premium</li>
@@ -421,6 +425,7 @@
                                 <li>Unlimited</li>
                               </ul>
                             </div>
+                          </a>
                         </div>
                       </div>
                     </div>

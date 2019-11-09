@@ -10,6 +10,7 @@ urlpatterns = [
     re_path('folder/(?P<folder_id>[0-9a-f]{40})$', views.folder),
     path('script', views.script),
     path('genre', views.genre),
+    path('price', views.price),
     re_path(r'^script/(?P<script_id>[0-9a-f]{40})$', views.script),
     re_path(r'^script/(?P<script_id>[0-9a-f]{40}/details)$', views.script_details),
     re_path(r'^script/(?P<script_id>[0-9a-f]{40}/sentiments)$', views.script_sentiments),

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  ElementRef, ViewChild  } from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -31,7 +31,7 @@ export class ScriptComponent implements OnInit {
     ) { 
         
     }
-
+    @ViewChild('openModal') openModal:ElementRef;
     async ngOnInit() {
         this.currentUser = await localStorage.getItem('currentUser');
         this.currentUser = JSON.parse(this.currentUser);
@@ -75,6 +75,18 @@ export class ScriptComponent implements OnInit {
         this.router.navigate(['/folder', this.currentUser.folder_details.Scripts]);
     }
 
+    async postOption(option:string) {
+        await this.userService.postPrice(option, this.currentUser.access_token)
+            .pipe(first())
+            .subscribe(
+                data => {
+                },
+                error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
+    }
+
     async getSentimentGraphs() {
         this.sentiment_loading = true;
         await this.userService.getScriptSentiments(this.scriptId, this.currentUser.access_token)
@@ -82,10 +94,8 @@ export class ScriptComponent implements OnInit {
             .subscribe(
                 data => {
                     this.sentiment_data = data;
-                    console.log(this.sentiment_data);
-                    console.log(this.sentiment_data.scores);
-                    console.log(this.sentiment_data.scenes);
                     KTFlotchartsDemo(this.sentiment_data.scores, this.sentiment_data.scenes);
+                    this.openModal.nativeElement.click();
                 },
                 error => {
                     this.alertService.error(error);
